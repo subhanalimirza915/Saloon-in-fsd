@@ -1,0 +1,1561 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8b5cf6">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>SalonPro</title>
+<link id="favicon" rel="icon" href="data:,">
+<style>
+:root{--p:#8b5cf6;--s:#ec4899;--bg:#f4f1fb;--card:#fff;--txt:#17121f;--muted:#706878;--line:#e7e0ee}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;color:var(--txt);background:var(--bg)}
+body.ur{font-family:'Noto Naskh Arabic','Segoe UI',Tahoma,Arial,sans-serif;line-height:1.7}
+body.dark{--bg:#0d1117;--card:#171b22;--txt:#f5f7fb;--muted:#aeb6c2;--line:#2b3340}
+.top{height:72px;background:var(--card);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:0 20px;position:sticky;top:0;z-index:20}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800}
+.logo{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--p),var(--s));overflow:hidden;flex:none}
+.logo.img{background:none}
+.logo img{width:100%;height:100%;object-fit:cover}
+.clock{font-size:13px;font-weight:700;text-align:end}
+.side{position:fixed;top:72px;bottom:0;inset-inline-start:0;width:245px;background:var(--card);border-inline-end:1px solid var(--line);padding:14px;z-index:10;overflow:auto}
+.main{margin-inline-start:245px;padding:26px;max-width:1280px}
+.nav{width:100%;border:0;background:transparent;color:var(--muted);text-align:start;padding:12px;border-radius:12px;margin:3px 0;cursor:pointer;font-size:14px;font-family:inherit}
+.nav:hover,.nav.active{background:color-mix(in srgb,var(--p) 15%,transparent);color:var(--p);font-weight:700}
+.ni{display:inline-block;min-width:1.7em}
+.bdg{background:#ef4444;color:#fff;border-radius:99px;font-size:11px;padding:2px 7px;margin-inline-start:6px;font-weight:800}
+.grid{display:grid;gap:18px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 15px 40px #32195b13}
+.banner{position:relative;overflow:hidden;padding:28px;border-radius:23px;color:#fff;background:linear-gradient(135deg,#15111e,var(--p),var(--s));min-height:150px}
+.banner .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.banner .ov{position:absolute;inset:0;background:linear-gradient(135deg,#15111eb0,#15111e55,#15111e33)}
+.banner .in{position:relative}
+.banner h1{margin:0 0 6px}
+.bigclock{font-size:34px;font-weight:800;margin-top:8px}
+.muted{color:var(--muted);font-size:13px}
+.title{display:flex;justify-content:space-between;align-items:center;margin:24px 0 13px;gap:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:11px;padding:10px 14px;background:color-mix(in srgb,var(--p) 14%,transparent);color:var(--p);font-weight:700;cursor:pointer;font-family:inherit;font-size:14px}
+.btn.primary{background:linear-gradient(135deg,var(--p),var(--s));color:#fff}
+.btn.red{background:#fee2e2;color:#b91c1c}
+.btn.green{background:#dcfce7;color:#15803d}
+.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--txt);font-family:inherit;font-size:14px}
+.field input[type=color]{padding:3px;height:44px;cursor:pointer}
+.form{display:grid;gap:12px}
+.service{min-height:185px;display:flex;flex-direction:column;justify-content:space-between}
+.price{font-weight:800;color:var(--p)}
+.old{text-decoration:line-through;color:var(--muted);font-size:12px;font-weight:600}
+.pill,.badge{display:inline-block;padding:5px 9px;border-radius:99px;font-size:11px;font-weight:800}
+.pill{background:color-mix(in srgb,var(--p) 14%,transparent);color:var(--p)}
+.pill.hot{background:#fee2e2;color:#b91c1c}
+.pending{background:#fef3c7;color:#92400e}.accepted{background:#dbeafe;color:#1d4ed8}.ready{background:#dcfce7;color:#15803d}.done{background:#e5e7eb;color:#374151}.rejected{background:#fee2e2;color:#b91c1c}
+.new{background:#fef3c7;color:#92400e}.seen{background:#e5e7eb;color:#374151}
+.order{padding:17px 0;border-bottom:1px solid var(--line)}
+.og{display:grid;grid-template-columns:1.5fr 1.2fr 1fr auto;gap:12px;align-items:center}
+.cd{color:var(--s)}
+.timebox{background:color-mix(in srgb,var(--p) 12%,transparent);color:var(--txt);border-radius:12px;padding:10px 12px;margin-top:8px;font-size:13px}
+.notif{padding:14px;border-radius:14px;border:1px solid var(--line);margin-bottom:10px}
+.notif.isnew{background:color-mix(in srgb,var(--p) 12%,transparent);border-color:color-mix(in srgb,var(--p) 40%,transparent)}
+.stat h2{margin:0 0 4px}
+.pos{color:#15803d}.neg{color:#b91c1c}
+.tblwrap{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th,.tbl td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:start;white-space:nowrap}
+.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 10% 10%,color-mix(in srgb,var(--s) 30%,transparent),transparent 30%),radial-gradient(circle at 90% 10%,color-mix(in srgb,var(--p) 30%,transparent),transparent 30%),var(--bg)}
+.authbox{width:min(450px,100%)}
+.center{text-align:center}
+.modalbg{position:fixed;inset:0;background:#08050dbb;display:grid;place-items:center;padding:18px;z-index:100}
+.modal{width:min(560px,100%);max-height:90vh;overflow:auto}
+.close{float:inline-end;background:0;border:0;font-size:25px;color:var(--muted);cursor:pointer}
+.toast{position:fixed;inset-inline-end:18px;bottom:18px;background:#17121f;color:#fff;padding:13px 16px;border-radius:13px;z-index:200;max-width:340px}
+.mobile{display:none}
+.preview{max-width:100%;max-height:160px;border-radius:12px;margin-top:10px}
+.stars span{font-size:28px;cursor:pointer;color:#cbd5e1}
+.stars span.on{color:#f59e0b}
+.star-s{color:#f59e0b;letter-spacing:2px}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.swatch{width:46px;height:34px;border-radius:10px;border:2px solid var(--line);cursor:pointer}
+.langrow{display:flex;gap:8px;justify-content:center;margin-top:6px}
+#dueAlert{position:fixed;top:14px;inset-inline:14px;margin:auto;max-width:560px;z-index:300;background:linear-gradient(135deg,var(--p),var(--s));color:#fff;padding:16px 18px;border-radius:18px;box-shadow:0 20px 50px #0006}
+#dueAlert .x{float:inline-end;background:#ffffff40;border:0;color:#fff;border-radius:8px;cursor:pointer;padding:2px 9px;font-size:16px}
+html{width:100%;overflow-x:hidden}
+body{width:100%;min-width:0;overflow-x:hidden;-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}
+img,video,iframe{max-width:100%}video{display:block}
+.banner{width:100%;isolation:isolate}.banner .bg{object-position:center}
+.top{padding-top:env(safe-area-inset-top,0px);min-height:72px}
+.main{width:100%;min-width:0}.card,.order,.apbox{min-width:0;overflow-wrap:anywhere}
+.btn{min-height:42px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.field input,.field select,.field textarea,.btn{max-width:100%}
+input,select,textarea,button{font:inherit}
+input[type=date],input[type=time]{min-height:44px}
+.datetime-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:10px;align-items:end}
+.datetime-row .field{min-width:0}.datetime-now{height:44px;white-space:nowrap}
+.modalbg{padding:max(12px,env(safe-area-inset-top,0px)) 12px max(12px,env(safe-area-inset-bottom,0px))}
+.modal{width:min(620px,100%);max-height:calc(100dvh - 24px);overflow:auto}
+.auth{min-height:100dvh;min-height:100svh;padding:max(18px,env(safe-area-inset-top,0px)) 12px max(18px,env(safe-area-inset-bottom,0px))}
+.authbox{width:min(520px,100%)}.apbox .apr{min-width:150px}.apbox .done-btn{min-width:100px}
+.sitefoot{overflow:hidden}.sitefoot .fcols{gap:18px}.social a{max-width:100%}
+@media(max-width:720px){
+.datetime-row{grid-template-columns:1fr 1fr}.datetime-now{grid-column:1/-1;width:100%}
+.og{grid-template-columns:1fr}.apbox{align-items:flex-start}.apbox .apr{text-align:start;width:100%;min-width:0}
+.apbox .cdm{font-size:24px}.banner{min-height:170px;padding:20px}.banner h1{font-size:24px;line-height:1.2}.banner p{font-size:14px}
+.grid.two,.grid.three{grid-template-columns:1fr}.top{gap:8px}
+.top>div:last-child{display:flex;gap:6px;align-items:center;max-width:65vw}
+.top>div:last-child .btn{padding:9px 10px;font-size:12px}.brand{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:430px){
+.cards{grid-template-columns:1fr}.main{padding:10px}.top{padding-inline:9px}.logo{width:36px;height:36px;border-radius:11px}
+.btn{padding:9px 11px}.title h2{font-size:17px}.card{padding:14px;border-radius:16px}
+.banner{border-radius:17px;min-height:180px}.banner h1{font-size:21px}.apbox{padding:13px}.apbox .cdm{font-size:21px}.authbox{padding:16px}
+}
+@media(min-width:851px){.mobile{display:none!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition:none!important}}
+@media(max-width:850px){.side{inset-inline-start:-255px;transition:.2s}.side.open{inset-inline-start:0}.main{margin-inline-start:0}.mobile{display:block}.og{grid-template-columns:1fr 1fr}.three{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.two,.three{grid-template-columns:1fr}.clock{font-size:11px;max-width:150px}}
+.main.guest{margin-inline-start:auto;margin-inline-end:auto}
+.cards{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.cards .card{padding:12px;border-radius:16px;box-shadow:none}
+.cards .service{min-height:0;gap:8px}
+.cards h3{font-size:15px}
+.cards .muted{font-size:12px}
+.cards .service>div>div[style*="display:flex"]{flex-direction:column;gap:4px}
+.cards .btn{width:100%;padding:8px;font-size:13px}
+.cards .timebox{padding:6px 8px;font-size:11px;margin-top:6px}
+.fbsmall .card{padding:12px}.fbsmall h2,.fbsmall h3{font-size:16px;margin:0 0 6px}
+.fbsmall .form{gap:8px}.fbsmall .field input,.fbsmall .field select,.fbsmall .field textarea{padding:8px;font-size:13px}
+.fbsmall .field:has(#fn),.fbsmall .field:has(#fp),.fbsmall .field:has(#fe){display:none}
+@media(max-width:560px){.main{padding:12px}.title{margin:16px 0 8px}.title h2{font-size:18px}.top{padding:0 12px}}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+.logo{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.btn,.nav{transition:transform .15s ease,box-shadow .2s ease}
+body.anim .btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px color-mix(in srgb,var(--p) 30%,transparent)}
+body.anim .btn:active,body.anim .nav:active{transform:scale(.93)}
+body.anim .cards .card,body.anim .banner{animation:fu .5s ease both}
+body.anim .modal{animation:pop .25s ease}
+#welcome{position:fixed;inset:0;z-index:99;display:grid;place-items:center;text-align:center;color:#fff;padding:20px;background:linear-gradient(135deg,var(--p),var(--s));transition:opacity .6s}
+#welcome.out{opacity:0}
+#welcome .wl{font-size:20px;opacity:.9;animation:pop .6s ease both}#welcome .wn{font-size:34px;font-weight:800;margin-top:6px;animation:pop .9s ease both}
+.banner iframe.bg{inset:auto;top:50%;left:50%;width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;transform:translate(-50%,-50%);border:0;pointer-events:none}
+.livebox{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border-radius:18px;padding:14px;margin-top:18px;box-shadow:0 8px 22px #0003}
+.livebox .cd{font-size:24px;display:block;margin:4px 0 8px}
+.livebar{background:linear-gradient(135deg,var(--p),var(--s));color:#fff;border-radius:18px;padding:14px;margin-bottom:14px;position:sticky;top:8px;z-index:5;box-shadow:0 8px 22px #0003}
+.livebar .cd{font-size:24px;display:block;margin:4px 0 8px}
+.pbw{height:8px;background:#fff4;border-radius:9px;overflow:hidden}.pb{height:100%;background:#fff;width:100%;transition:width 1s linear}
+.social{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.social a{text-decoration:none}.social-direct{display:inline-flex;align-items:center;gap:7px}
+#installBar{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:center;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);box-shadow:0 -8px 24px #0002}
+#installBar .btn{width:min(460px,100%);padding:13px 16px;font-size:16px;border-radius:14px}
+.sitefoot{margin-top:34px;padding:24px 22px 16px;border-radius:22px;background:linear-gradient(135deg,#15111e,#2b1749);color:#fff}
+.sitefoot .fcols{display:flex;gap:28px 48px;flex-wrap:wrap}
+.sitefoot h3{margin:0 0 10px;font-size:16px}
+.sitefoot .fcol>div{margin-bottom:4px}
+.sitefoot a{color:#fff}
+.sitefoot .flink{display:inline-flex;align-items:center;gap:9px;padding:9px 14px;border-radius:12px;background:#ffffff1f;text-decoration:none;font-weight:700}
+.sitefoot .flink:hover{background:#ffffff33}
+.sitefoot .ficon{display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center}
+.sitefoot .btn{text-decoration:none}
+.sitefoot .fcopy{margin-top:18px;padding-top:12px;border-top:1px solid #ffffff26;font-size:12px;opacity:.75;text-align:center}
+.apboard{display:grid;gap:12px}
+.apbox{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-inline-start:6px solid var(--p);border-radius:18px;padding:14px 18px;box-shadow:0 10px 28px #32195b13}
+.apbox .apt{font-weight:800;font-size:16px;margin-bottom:3px}
+.apbox .apr{text-align:end}
+.apbox .cdm{display:block;font-size:30px;line-height:1.15;color:var(--p);font-variant-numeric:tabular-nums}
+.apbox .ap-due{display:none;margin-top:6px;font-weight:700;color:#b45309}
+.apbox.due{border-inline-start-color:#f59e0b;background:color-mix(in srgb,#f59e0b 12%,var(--card))}
+.apbox.due .ap-due{display:block}
+.apbox.due .cdm{color:#b45309}.apbox .done-btn{display:none}.apbox.due .done-btn{display:inline-block}
+body.hasinstall{padding-bottom:78px}
+body.hasinstall .side{bottom:68px}
+body.hasinstall ~ .toast{bottom:92px}
+</style>
+</head>
+<body>
+<script>
+/* ================= DATA (saved in this browser only) ================= */
+var DEFAULT_ADMIN_HASH='fcd81cc070a77791edd4ced4f86481ca3ac8ddfbe05998d5b546ce6a599f10ef';
+var DEFAULT_SUPER_HASH='8df24a74659b00e40ee5922e22ba34f8235fcb360c54111fcd54f07107cae8fc';
+var SUPER_PERMS_DEFAULT={dashboard:true,adminOrders:true,adminCustomers:true,adminFinance:true,adminServices:true,adminDeals:true,adminReviews:true,adminSettings:true};
+var DEFAULT_TRIAL_DAYS=30;
+async function H(x){var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('salonpro|'+x));return Array.from(new Uint8Array(b)).map(function(c){return c.toString(16).padStart(2,'0')}).join('')}
+var DEFAULT_TAGLINE='Book a service and follow your order live.';
+var DEF_P='#8b5cf6', DEF_S='#ec4899';
+var KEY='salonpro_offline_db', SKEY='salonpro_offline_session';
+
+/* default icons for every button (admin can change them) */
+var ICON_DEF=[
+ ['logo','Logo (jab image na ho)','✂'],
+ ['dashboard','Admin: Dashboard','⌂'],['adminOrders','Admin: Orders','▣'],['adminCustomers','Admin: Customers','👥'],
+ ['adminFinance','Admin: Finance','💰'],['adminServices','Admin: Services','✂'],['adminDeals','Admin: Deals','🏷'],
+ ['adminReviews','Admin: Reviews','⭐'],['adminSettings','Admin: Settings','⚙'],['superAdmin','Super Admin','🛡️'],['superLogin','Super Admin','🛡️'],
+ ['home','Customer: Home','⌂'],['services','Customer: Services','✂'],['orders','Customer: My Orders','▣'],
+ ['notifs','Customer: Notifications','🔔'],['profile','Customer: Profile','●'],['settings','Customer: Settings','⚙'],
+ ['logout','Logout','↪']
+];
+var COLOR_PRESETS=[['Purple','#8b5cf6','#ec4899'],['Ocean','#0ea5e9','#6366f1'],['Emerald','#10b981','#14b8a6'],['Sunset','#f97316','#ef4444'],['Rose','#e11d48','#f472b6'],['Gold','#ca8a04','#f59e0b'],['Black','#334155','#0f172a']];
+
+function loadDB(){
+  var db=null;
+  try{db=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+  if(!db||typeof db!=='object')db={};
+  ['users','orders','notifs','expenses','deals','feedback'].forEach(function(k){if(!Array.isArray(db[k]))db[k]=[]});
+  if(!db.adminPass)db.adminPass=DEFAULT_ADMIN_HASH;
+  if(!db.superAdminPass)db.superAdminPass=DEFAULT_SUPER_HASH;
+  if(!db.adminPermissions||typeof db.adminPermissions!=='object')db.adminPermissions=JSON.parse(JSON.stringify(SUPER_PERMS_DEFAULT));
+  if(!db.adminAccounts||!Array.isArray(db.adminAccounts))db.adminAccounts=[{id:'admin-main',name:'Regular Admin',createdAt:Date.now()}];
+  if(!db.freeTrial||typeof db.freeTrial!=='object')db.freeTrial={enabled:false,durationDays:DEFAULT_TRIAL_DAYS,startedAt:0};
+  if(!Number(db.freeTrial.durationDays)||Number(db.freeTrial.durationDays)<1)db.freeTrial.durationDays=DEFAULT_TRIAL_DAYS;
+  if(typeof db.freeTrial.enabled!=='boolean')db.freeTrial.enabled=false;
+  if(!db.freeTrial.startedAt)db.freeTrial.startedAt=0;
+  if(!db.shopName)db.shopName='SalonPro';
+  if(!db.adminHeading)db.adminHeading='Welcome Owner';
+  if(!db.tagline)db.tagline=DEFAULT_TAGLINE;
+  if(!db.colorP)db.colorP=DEF_P;
+  if(!db.colorS)db.colorS=DEF_S;
+  if(!db.icons||typeof db.icons!=='object')db.icons={};
+  if(!db.contact||typeof db.contact!=='object')db.contact={name:'',phone:'',email:'',addr:''};
+  if(!db.services||!db.services.length){
+    db.services=[
+      {id:'s1',name:'Faisal Haircut',price:500,duration:30,desc:'Modern haircut and styling'},
+      {id:'s2',name:'Hair Styling',price:800,duration:45,desc:'Professional hair styling'},
+      {id:'s3',name:'Beard Trim',price:300,duration:20,desc:'Professional beard shaping'},
+      {id:'s4',name:'Hair Wash',price:250,duration:15,desc:'Refreshing hair wash'},
+      {id:'s5',name:'Face Cleanup',price:600,duration:30,desc:'Basic facial cleanup'},
+      {id:'s6',name:'Hair Color',price:1500,duration:90,desc:'Professional hair coloring'}
+    ];
+  }
+  localStorage.setItem(KEY,JSON.stringify(db));
+  return db;
+}
+var DB=loadDB();
+function sameJSON(a,b){try{return JSON.stringify(a)===JSON.stringify(b)}catch(e){return false}}
+function markChanged(before,after,now){
+  var arrs=['users','orders','notifs','expenses','deals','feedback'],del=after._deletedIds||{};
+  arrs.forEach(function(k){
+    var ba=before[k]||[],aa=after[k]||[],bm={},am={};
+    ba.forEach(function(x){bm[x.id]=x}); aa.forEach(function(x){am[x.id]=1;if(!bm[x.id]||!sameJSON(bm[x.id],x))x._updatedAt=now});
+    del[k]=del[k]||[]; ba.forEach(function(x){if(x.id&&!am[x.id]&&del[k].every(function(d){return d.id!==x.id}))del[k].push({id:x.id,t:now})});
+  });
+  after._deletedIds=del;
+  var rootKeys=['adminPass','superAdminPass','adminPermissions','adminAccounts','freeTrial','shopName','adminHeading','tagline','colorP','colorS','icons','contact','services','bannerVideo','vid','bannerVersion','logoVersion'];
+  for(var i=0;i<rootKeys.length;i++){var k=rootKeys[i];if(!sameJSON(before[k],after[k])){after._settingsUpdatedAt=now;break}}
+  after._lastSavedAt=now;
+}
+function save(){var j=JSON.stringify(DB);localStorage.setItem(KEY,j);if(window.cloudPush)window.cloudPush(j)}
+/* Work from the latest local copy and mark changed records for safe cloud merging. */
+function upd(fn){DB=loadDB();var before=JSON.parse(JSON.stringify(DB));fn();markChanged(before,DB,Date.now());save()}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function byId(arr,id){return arr.filter(function(x){return x.id===id})[0]}
+/* notifications are stored as type + params, so the customer sees them in his own language */
+function pushNotif(userId,type,p,orderId){DB.notifs.push({id:uid(),userId:userId,type:type,p:p||{},time:Date.now(),read:false,orderId:orderId||''})}
+
+/* Persistent login:
+   - User, Admin and Super Admin sessions are stored in localStorage.
+   - Closing/restarting the browser or phone does not log the account out.
+   - Only explicit Logout clears the saved session.
+   - A legacy sessionStorage session is migrated once to localStorage.
+*/
+function getSession(){
+  try{
+    var saved=localStorage.getItem(SKEY);
+    if(saved)return JSON.parse(saved);
+    var legacy=sessionStorage.getItem(SKEY);
+    if(legacy){
+      localStorage.setItem(SKEY,legacy);
+      sessionStorage.removeItem(SKEY);
+      return JSON.parse(legacy);
+    }
+  }catch(e){}
+  return null;
+}
+function setSession(s){
+  try{
+    sessionStorage.removeItem(SKEY);
+    localStorage.removeItem(SKEY);
+    if(!s)return;
+    s.persistent=true;
+    s.sessionVersion=2;
+    s.sessionToken=s.sessionToken||(
+      (crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2))
+    );
+    localStorage.setItem(SKEY,JSON.stringify(s));
+  }catch(e){
+    console.error('Could not persist login session',e);
+  }
+}
+
+/* ================= LANGUAGE (customer side: English / Urdu) ================= */
+var T={
+en:{
+ tagline:"Book a service and follow your order live.",
+ cust_login:"Customer Login",email:"Email",password:"Password",login:"Login",new_customer:"New customer?",create_account:"Create account",
+ admin:"Admin",create_account_title:"Create Account",name:"Name",phone:"Phone",register:"Register",back:"Back",
+ err_dup:"An account with this email already exists.",err_login:"Email or password is incorrect.",acc_created:"Account created!",
+ nav_home:"Home",nav_services:"Services",nav_orders:"My Orders",nav_notifs:"Notifications",nav_profile:"Profile",nav_settings:"Settings",logout:"Logout",
+ welcome:"Welcome, {name}",next_appt:"Your next appointment",time_left_visit:"Time left until your visit:",
+ services:"Services",active_orders:"Active Orders",deals_title:"Special Deals",book_now:"Book Now",book_deal:"Book Deal",
+ deal_ends_in:"Deal ends in:",ends:"Ends",min:"min",
+ my_orders:"My Orders",no_orders:"No orders yet.",order_received:"Order received",you_asked:"You asked for:",
+ waiting_admin:"Waiting for the shop to confirm",come_at:"Please come to the shop at:",time_left:"Time left:",
+ st_pending:"Pending",st_accepted:"Confirmed",st_ready:"Ready",st_done:"Completed",st_rejected:"Rejected",
+ notifs_title:"Notifications",no_notifs:"No notifications yet.",
+ profile_title:"Profile",new_password:"New password (optional)",save:"Save",saved:"Saved",
+ settings_title:"Settings",theme:"Theme",light:"Light",dark:"Dark",language:"Language",lang_note:"Choose the language you want to use in this app.",
+ book_title:"Book {name}",date:"Date",time:"Time",note:"Note",send_order:"Send Order",deal_over:"This deal has ended.",order_sent:"Your order was sent to the shop.",
+ days:"days",hours:"hours",mins:"min",secs:"sec",cd_due:"Time is up - please come to the shop",cd_deal_over:"Deal has ended",
+ due_title:"It's time! Please come to the shop now",
+ contact_title:"Contact us",
+ fb_title:"Complaint / Review",fb_sub:"Tell us about your experience. Your message goes straight to the shop owner.",
+ fb_type:"Type",fb_review:"Review",fb_complaint:"Complaint",fb_rating:"Rating",fb_message:"Your message",
+ fb_name:"Your name",fb_phone:"Phone number",fb_email:"Email",fb_optional:"(optional)",fb_send:"Submit",
+ fb_thanks:"Thank you! Your message reached the shop owner.",
+ n_confirm:"Your order ({service}) is confirmed. Please come to the shop at: {time}{msg}",
+ n_retime:"The time for your order ({service}) has changed. Please come at: {time}{msg}",
+ n_accepted:"Your order ({service}) has been accepted.",
+ n_ready:"Your order ({service}) is ready.",
+ n_done:"Thank you! Your order ({service}) is complete.",
+ n_rejected:"Sorry, your order ({service}) could not be accepted.",
+ n_msg:"{service}: {text}",
+ n_due:"It's time to come to the shop for your order ({service})!",
+ n_reply:"Reply to your {kind}: {text}"
+},
+ur:{
+ tagline:"سروس بُک کریں اور اپنا آرڈر لائیو دیکھیں۔",
+ cust_login:"کسٹمر لاگ اِن",email:"ای میل",password:"پاسورڈ",login:"لاگ اِن",new_customer:"نئے کسٹمر ہیں؟",create_account:"اکاؤنٹ بنائیں",
+ admin:"ایڈمن",create_account_title:"اکاؤنٹ بنائیں",name:"نام",phone:"فون نمبر",register:"رجسٹر کریں",back:"واپس",
+ err_dup:"اس ای میل سے اکاؤنٹ پہلے سے موجود ہے۔",err_login:"ای میل یا پاسورڈ غلط ہے۔",acc_created:"اکاؤنٹ بن گیا!",
+ nav_home:"ہوم",nav_services:"سروسز",nav_orders:"میرے آرڈرز",nav_notifs:"نوٹیفکیشنز",nav_profile:"پروفائل",nav_settings:"سیٹنگز",logout:"لاگ آؤٹ",
+ welcome:"خوش آمدید، {name}",next_appt:"آپ کی اگلی اپوائنٹمنٹ",time_left_visit:"آپ کے آنے میں باقی وقت:",
+ services:"سروسز",active_orders:"فعال آرڈرز",deals_title:"خصوصی ڈیلز",book_now:"ابھی بُک کریں",book_deal:"ڈیل بُک کریں",
+ deal_ends_in:"ڈیل ختم ہونے میں:",ends:"اختتام",min:"منٹ",
+ my_orders:"میرے آرڈرز",no_orders:"ابھی کوئی آرڈر نہیں۔",order_received:"آرڈر موصول ہوا",you_asked:"آپ نے وقت مانگا:",
+ waiting_admin:"دکان کی تصدیق کا انتظار ہے",come_at:"براہِ کرم دکان پر اس وقت آئیں:",time_left:"باقی وقت:",
+ st_pending:"زیرِ انتظار",st_accepted:"تصدیق شدہ",st_ready:"تیار",st_done:"مکمل",st_rejected:"مسترد",
+ notifs_title:"نوٹیفکیشنز",no_notifs:"ابھی کوئی نوٹیفکیشن نہیں۔",
+ profile_title:"پروفائل",new_password:"نیا پاسورڈ (اختیاری)",save:"محفوظ کریں",saved:"محفوظ ہو گیا",
+ settings_title:"سیٹنگز",theme:"تھیم",light:"روشن",dark:"گہرا",language:"زبان",lang_note:"اس ایپ میں استعمال کے لیے اپنی پسند کی زبان منتخب کریں۔",
+ book_title:"{name} بُک کریں",date:"تاریخ",time:"وقت",note:"نوٹ",send_order:"آرڈر بھیجیں",deal_over:"یہ ڈیل ختم ہو چکی ہے۔",order_sent:"آپ کا آرڈر دکان کو بھیج دیا گیا ہے۔",
+ days:"دن",hours:"گھنٹے",mins:"منٹ",secs:"سیکنڈ",cd_due:"وقت ہو گیا ہے - براہِ کرم دکان پر آ جائیں",cd_deal_over:"ڈیل ختم ہو گئی",
+ due_title:"وقت ہو گیا! براہِ کرم اب دکان پر آئیں",
+ contact_title:"ہم سے رابطہ کریں",
+ fb_title:"شکایت / ریویو",fb_sub:"اپنا تجربہ ہمیں بتائیں۔ آپ کا پیغام سیدھا دکان کے مالک تک جائے گا۔",
+ fb_type:"قسم",fb_review:"ریویو",fb_complaint:"شکایت",fb_rating:"ریٹنگ",fb_message:"آپ کا پیغام",
+ fb_name:"آپ کا نام",fb_phone:"فون نمبر",fb_email:"جی میل / ای میل",fb_optional:"(اختیاری)",fb_send:"بھیجیں",
+ fb_thanks:"شکریہ! آپ کا پیغام دکان کے مالک تک پہنچ گیا۔",
+ n_confirm:"آپ کا آرڈر ({service}) کنفرم ہو گیا ہے۔ براہِ کرم دکان پر اس وقت آئیں: {time}{msg}",
+ n_retime:"آپ کے آرڈر ({service}) کا وقت بدل گیا ہے۔ اب اس وقت آئیں: {time}{msg}",
+ n_accepted:"آپ کا آرڈر ({service}) قبول ہو گیا ہے۔",
+ n_ready:"آپ کا آرڈر ({service}) تیار ہے۔",
+ n_done:"شکریہ! آپ کا آرڈر ({service}) مکمل ہو گیا۔",
+ n_rejected:"معذرت، آپ کا آرڈر ({service}) قبول نہیں ہو سکا۔",
+ n_msg:"{service}: {text}",
+ n_due:"آپ کے آرڈر ({service}) کے لیے دکان پر آنے کا وقت ہو گیا ہے!",
+ n_reply:"آپ کی {kind} کا جواب: {text}"
+}};
+function lang(){return localStorage.salonLang==='ur'?'ur':'en'}
+/* admin panel is always English / Roman Urdu; only customer screens use the chosen language */
+function uiLang(){var s=getSession();return (s&&s.role==='admin')?'en':lang()}
+function t(k,p){
+  var l=uiLang(),s=T[l][k];
+  if(s==null)s=T.en[k];
+  if(s==null)return k;
+  if(p)Object.keys(p).forEach(function(x){s=s.split('{'+x+'}').join(p[x])});
+  return s;
+}
+function loc(){return uiLang()==='ur'?'ur-PK':'en-PK'}
+function setDir(d){document.documentElement.dir=d;document.documentElement.lang=d==='rtl'?'ur':'en';document.body.classList.toggle('ur',d==='rtl')}
+var authScreen='login';
+function setLang(l){
+  localStorage.salonLang=l;
+  if(getSession())render();
+  else if(authScreen==='reg')regScreen();else loginScreen();
+}
+function nText(n){
+  if(!n.type)return n.text||'';
+  var p=n.p||{};
+  return t('n_'+n.type,{service:p.service||'',time:p.time?appt(p.time):'',msg:p.msg?' — '+p.msg:'',text:p.text||'',kind:p.kind?t('fb_'+p.kind):''});
+}
+
+/* ================= ICONS / COLORS / LOGO ================= */
+function icon(k){
+  if(false){
+    var v=DB.icons[k];
+    if(k==='logo'&&!v)return '✂';
+    return v;
+  }
+  for(var i=0;i<ICON_DEF.length;i++)if(ICON_DEF[i][0]===k)return ICON_DEF[i][2];
+  return '';
+}
+function applyColors(){
+  var r=document.documentElement.style;
+  r.setProperty('--p',DB.colorP||DEF_P);
+  r.setProperty('--s',DB.colorS||DEF_S);
+  if(DB.bgColor)r.setProperty('--bg',DB.bgColor);else r.removeProperty('--bg');
+  if(document.body)document.body.classList.toggle('anim',DB.anim!==false);
+}
+var logoURL='';
+function logoInner(){return logoURL?"<img src='"+logoURL+"' alt=''>":esc(icon('logo'))}
+function logoHTML(style){return "<div class='logo"+(logoURL?" img":"")+"'"+(style?" style=\""+style+"\"":"")+">"+logoInner()+"</div>"}
+function paintLogos(){
+  var els=document.querySelectorAll('.logo');
+  for(var i=0;i<els.length;i++){els[i].classList.toggle('img',!!logoURL);els[i].innerHTML=logoInner()}
+  setFavicon();
+  updateInstallManifest();
+}
+function setFavicon(){
+  var l=document.getElementById('favicon');if(!l)return;
+  if(logoURL){l.href=logoURL;return}
+  var svg="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='"+(DB.colorP||DEF_P)+"'/><text x='50' y='68' font-size='56' text-anchor='middle' fill='white'>"+esc(icon('logo'))+"</text></svg>";
+  l.href='data:image/svg+xml,'+encodeURIComponent(svg);
+}
+
+/* ================= MEDIA (banner + logo images in IndexedDB) ================= */
+var bannerURL='',bannerType='';
+function idb(){return new Promise(function(res,rej){var r=indexedDB.open('salonpro_media',1);r.onupgradeneeded=function(){r.result.createObjectStore('m')};r.onsuccess=function(){res(r.result)};r.onerror=function(){rej(r.error)}})}
+function idbPut(k,v){return idb().then(function(d){return new Promise(function(res,rej){var t2=d.transaction('m','readwrite');t2.objectStore('m').put(v,k);t2.oncomplete=res;t2.onerror=function(){rej(t2.error)}})})}
+function idbGet(k){return idb().then(function(d){return new Promise(function(res,rej){var q=d.transaction('m').objectStore('m').get(k);q.onsuccess=function(){res(q.result)};q.onerror=function(){rej(q.error)}})})}
+function idbDel(k){return idb().then(function(d){return new Promise(function(res,rej){var t2=d.transaction('m','readwrite');t2.objectStore('m').delete(k);t2.oncomplete=res;t2.onerror=function(){rej(t2.error)}})})}
+function loadBanner(){}
+function loadLogo(){}
+function mediaChanged(n,d){
+  d=d||'';
+  if(n==='banner'){if(bannerURL===d)return;bannerURL=d;bannerType='image';if(getSession()||authScreen==='guest')render()}
+  else{if(logoURL===d)return;logoURL=d;paintLogos();if(window.updateInstallManifest)window.updateInstallManifest()}
+}
+function shrink(f,max,q,type){return new Promise(function(res,rej){
+  var im=new Image(),u=URL.createObjectURL(f);
+  im.onload=function(){var k=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL(type,q))};
+  im.onerror=rej;im.src=u;
+})}
+function saveMedia(n,f,max,q,type,okMsg){
+  if(!f)return;
+  if(f.type.indexOf('image')!==0){toast(n==='banner'?'For online storage, please choose an image. For a video, provide a link.':'Sirf image file chunein.');return}
+  if(!window.cloudMediaSet){toast('The database has not loaded yet. Please try again.');return}
+  shrink(f,max,q,type).then(function(d){
+    if(d.length>900000)return shrink(f,max*0.6,q*0.8,type);
+    return d;
+  }).then(function(d){return window.cloudMediaSet(n,d).then(function(){mediaChanged(n,d);toast(okMsg);if(n==='logo')render()})})
+  .catch(function(){toast('The changes could not be saved. Please check the Firestore rules.')});
+}
+function setBanner(inp){saveMedia('banner',inp.files[0],1100,0.65,'image/jpeg','Banner lag gaya.')}
+function delBanner(){if(window.cloudMediaSet)window.cloudMediaSet('banner','').then(function(){mediaChanged('banner','');toast('Banner hata diya.');render()})}
+function setLogo(inp){saveMedia('logo',inp.files[0],192,0.9,'image/png','Logo / web icon lag gaya.')}
+function delLogo(){if(window.cloudMediaSet)window.cloudMediaSet('logo','').then(function(){mediaChanged('logo','');toast('Logo hata diya.');render()})}
+
+/* ================= HELPERS ================= */
+var page='home', prompted={}, dueSent={}, dueDismissed={}, fbRating=5, pendingRender=false;
+function $(x){return document.getElementById(x)}
+function esc(x){return String(x==null?'':x).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]})}
+function money(n){return 'Rs. '+Number(n||0).toLocaleString()}
+function pad(n){return n<10?'0'+n:''+n}
+function dkey(v){var d=new Date(v);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function when(v){var d=new Date(v);return isNaN(d)?'—':d.toLocaleString(loc(),{dateStyle:'medium',timeStyle:'short'})}
+function appt(v){var d=new Date(v);return isNaN(d)?'—':d.toLocaleString(loc(),{weekday:'long',day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+function toast(x){var e=document.createElement('div');e.className='toast';e.textContent=x;document.documentElement.appendChild(e);setTimeout(function(){e.remove()},3500)}
+function theme(){document.body.classList.toggle('dark',localStorage.salonTheme==='dark');applyColors()}
+function setTheme(x){localStorage.salonTheme=x;theme();render()}
+
+function fmtLeft(ms){
+  if(ms<=0)return null;
+  var s=Math.floor(ms/1000),d=Math.floor(s/86400);s%=86400;
+  var h=Math.floor(s/3600);s%=3600;var m=Math.floor(s/60);s%=60;
+  var p=[];if(d)p.push(d+' '+t('days'));if(d||h)p.push(h+' '+t('hours'));p.push(m+' '+t('mins'));p.push(s+' '+t('secs'));
+  return p.join(' ');
+}
+function cd(end,mode){return "<b class=cd data-end='"+end+"' data-mode='"+mode+"'></b>"}
+
+/* shop time reached -> alert for 2 minutes (customer side) */
+function visitReply(id,v){upd(function(){var q=byId(DB.orders,id);if(q)q.visitReply=v});dismissDue(id);toast(v==='coming'?'Thanks! See you soon.':'Okay, the shop has been informed.')}
+function dismissDue(id){dueDismissed[id]=1;var e=$('dueAlert');if(e)e.remove()}
+function sysNotify(title,body){
+  try{
+    if(!window.Notification||Notification.permission!=='granted')return;
+    var op={body:body||'',icon:'icon-192.png',tag:'salon-due',requireInteraction:true};
+    if(navigator.serviceWorker&&navigator.serviceWorker.getRegistration){
+      navigator.serviceWorker.getRegistration().then(function(r){if(r&&r.showNotification)r.showNotification(title,op);else new Notification(title,op)}).catch(function(){try{new Notification(title,op)}catch(e){}});
+    }else new Notification(title,op);
+  }catch(e){}
+}
+function notifyDue(title,body){
+  ding();toast('🔔 '+title+(body?' — '+body:''));
+  try{if(navigator.vibrate)navigator.vibrate([250,120,250,120,250])}catch(e){}
+  sysNotify(title,body);
+}
+/* ask customers for notification permission on their first tap */
+document.addEventListener('click',function(){
+  try{
+    var s=getSession();
+    if(!s||s.role!=='user'||!window.Notification||Notification.permission!=='default'||sessionStorage.salonAskedN)return;
+    sessionStorage.salonAskedN='1';Notification.requestPermission();
+  }catch(e){}
+});
+function dueCheck(){
+  var s=getSession(),el=$('dueAlert'),o=null,now=Date.now();
+  if(s&&s.role==='user'){
+    o=DB.orders.filter(function(x){
+      if(x.userId!==s.id||dueDismissed[x.id]||!x.confirmedTime||x.visitReply||(x.status!=='accepted'&&x.status!=='ready'))return false;
+      var ct=new Date(x.confirmedTime).getTime();
+      return now>=ct&&now<ct+1800000;
+    })[0];
+  }
+  if(!o){if(el)el.remove();return}
+  var key=o.id+lang();
+  if(!el||el.getAttribute('data-key')!==key){
+    if(!el){el=document.createElement('div');el.id='dueAlert';document.documentElement.appendChild(el)}
+    el.setAttribute('data-key',key);
+    el.innerHTML="<button class=x onclick=\"dismissDue('"+o.id+"')\">✕</button><div style='font-size:18px;font-weight:800'>⏰ "+esc(t('due_title'))+"</div><div style='margin-top:6px'><b>"+esc(o.service)+"</b> — "+esc(appt(o.confirmedTime))+"</div><div style='margin-top:10px;display:flex;gap:8px;flex-wrap:wrap'><button class='btn green' onclick=\"visitReply('"+o.id+"','coming')\">✅ I'm coming</button><button class='btn red' onclick=\"visitReply('"+o.id+"','not')\">❌ I'm not coming</button></div>";
+  }
+  var dk=o.id+'|'+o.confirmedTime;
+  if(!dueSent[dk]){
+    dueSent[dk]=1;
+    var oid=o.id;
+    upd(function(){var q=byId(DB.orders,oid);if(q&&!q.dueNotified){q.dueNotified=true;pushNotif(q.userId,'due',{service:q.service},q.id)}});
+    var lk='salonDueN|'+dk,seen=false;
+    try{seen=!!localStorage.getItem(lk);if(!seen)localStorage.setItem(lk,'1')}catch(e){}
+    if(!seen)notifyDue(t('due_title'),o.service+' — '+appt(o.confirmedTime));
+    render();
+  }
+}
+function tick(){
+  var now=new Date();
+  var c=$('clock');
+  if(c)c.textContent=now.toLocaleTimeString('en-PK')+' • '+now.toLocaleDateString('en-PK',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+  var b=$('bigclock');if(b)b.textContent=now.toLocaleTimeString('en-PK');
+  var bd=$('bigdate');if(bd)bd.textContent=now.toLocaleDateString('en-PK',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+  var pbs=document.querySelectorAll('.pb');
+  for(var q=0;q<pbs.length;q++){var a=+pbs[q].getAttribute('data-start'),z=+pbs[q].getAttribute('data-end'),f=(z-Date.now())/Math.max(1,z-a);pbs[q].style.width=Math.max(0,Math.min(1,f))*100+'%'}
+  var els=document.querySelectorAll('.cd');
+  for(var i=0;i<els.length;i++){
+    var el=els[i],l=fmtLeft(+el.getAttribute('data-end')-Date.now());
+    el.textContent=l?l:(el.getAttribute('data-mode')==='deal'?t('cd_deal_over'):t('cd_due'));
+  }
+  dueCheck();
+  var cm=document.querySelectorAll('.cdm'),nw=Date.now();
+  for(var j=0;j<cm.length;j++){var lm=Math.max(0,+cm[j].getAttribute('data-end')-nw),sc=Math.floor(lm/1000);cm[j].textContent=Math.floor(sc/60)+' min '+pad(sc%60)+' sec'}
+  var ab=document.querySelectorAll('.apbox[data-end]');
+  for(var k=0;k<ab.length;k++)ab[k].classList.toggle('due',nw>=+ab[k].getAttribute('data-end'));
+  boxCheck();
+  refreshInstall();
+}
+setInterval(tick,1000);
+
+/* ================= LOGIN SCREENS ================= */
+function langRow(){return "<div class=langrow><button type=button class='btn"+(lang()==='en'?' primary':'')+"' onclick=\"setLang('en')\">English</button><button type=button class='btn"+(lang()==='ur'?' primary':'')+"' onclick=\"setLang('ur')\">اردو</button></div>"}
+function loginScreen(){
+  authScreen='login';
+  setDir(lang()==='ur'?'rtl':'ltr');
+  document.title=DB.shopName;
+  document.body.innerHTML="<div class=auth><div class='card authbox'><div class=center>"+logoHTML("margin:auto")+"<h2>"+esc(DB.shopName)+"</h2><div class=muted>"+esc(t('cust_login'))+"</div></div>"+
+  "<form class=form onsubmit='event.preventDefault();doLogin()'><div class=field><label>"+esc(t('email'))+"</label><input id=email type=email required></div><div class=field><label>"+esc(t('password'))+"</label><input id=pass type=password required></div><button class='btn primary'>"+esc(t('login'))+"</button></form>"+
+  "<p class=center><span class=muted>"+esc(t('new_customer'))+"</span> <b onclick='regScreen()' style='color:var(--p);cursor:pointer'>"+esc(t('create_account'))+"</b></p>"+
+  "<p class=center><button class=btn onclick='guestHome()'>← Shop</button></p></div></div>";
+}
+function guestHome(){
+  authScreen='guest';
+  setDir(lang()==='ur'?'rtl':'ltr');
+  document.title=DB.shopName;
+  var deals=DB.deals.filter(dealActive).sort(function(a,b){return new Date(a.until)-new Date(b.until)});
+  var tag=DB.tagline===DEFAULT_TAGLINE?t('tagline'):DB.tagline;
+  document.body.innerHTML="<header class=top><div class=brand>"+logoHTML()+esc(DB.shopName)+"</div><div>"+installBtn()+" <button class=btn onclick='loginScreen()'>"+esc(t('login'))+"</button> <button class='btn primary' onclick='regScreen()'>"+esc(t('create_account'))+"</button></div></header><main class='main guest'><div id=content>"+bannerHTML(DB.shopName,tag,'')+
+  (deals.length?"<div class=title><h2>🏷 "+esc(t('deals_title'))+"</h2></div><div class=cards>"+deals.map(function(d){return dealCard(d,false)}).join('')+"</div>":"")+
+  "<div class=title><h2>"+esc(t('services'))+"</h2></div><div class=cards>"+DB.services.map(function(x){return serviceCard(x,false)}).join('')+"</div>"+contactHTML()+
+  "</div></main>";
+  tick();showWelcome();
+}
+function regScreen(){
+  authScreen='reg';
+  setDir(lang()==='ur'?'rtl':'ltr');
+  document.body.innerHTML="<div class=auth><div class='card authbox'><div class=center>"+logoHTML("margin:auto")+"<h2>"+esc(t('create_account_title'))+"</h2></div>"+
+  "<form class=form onsubmit='event.preventDefault();doReg()'><div class=field><label>"+esc(t('name'))+"</label><input id=name required></div><div class=field><label>"+esc(t('email'))+"</label><input id=email type=email required></div><div class=field><label>"+esc(t('phone'))+"</label><input id=phone></div><div class=field><label>"+esc(t('password'))+"</label><input id=pass type=password minlength=4 required></div><button class='btn primary'>"+esc(t('register'))+"</button><button type=button class=btn onclick='loginScreen()'>"+esc(t('back'))+"</button></form>"+"</div></div>";
+}
+function adminScreen(){
+  authScreen='admin';
+  setDir('ltr');
+  document.body.innerHTML="<div class=auth><div class='card authbox'><div class=center>"+logoHTML("margin:auto")+"<h2>Admin Login</h2><div class=muted>Enter admin password</div></div>"+
+  "<form class=form onsubmit='event.preventDefault();doAdmin()'><div class=field><label>Admin Password</label><input id=pass type=password required autofocus></div><button class='btn primary'>Open Admin Panel</button><button type=button class=btn onclick='guestHome()'>Back</button></form></div></div>";
+}
+async function doReg(){
+  if(window.cloudReady && !window.cloudReady()){toast('Please wait a moment while the online database connects.');return}
+  DB=loadDB();
+  var em=$('email').value.trim().toLowerCase(),nm=$('name').value.trim(),ph=$('phone').value.trim(),pw=await H($('pass').value);
+  var id=uid(),dup=false;
+  upd(function(){
+    if(DB.users.some(function(u){return u.email===em})){dup=true;return}
+    DB.users.push({id:id,name:nm,email:em,phone:ph,pass:pw,createdAt:Date.now(),_updatedAt:Date.now()});
+  });
+  if(dup){toast(t('err_dup'));return}
+  if(window.cloudFlush)await window.cloudFlush();
+  setSession({role:'user',id:id});page='home';render();toast(t('acc_created'));
+}
+async function doLogin(){
+  DB=loadDB();
+  var em=$('email').value.trim().toLowerCase(),pw=await H($('pass').value);
+  var u=DB.users.filter(function(x){return x.email===em&&x.pass===pw})[0];
+  if(!u){toast(t('err_login'));return}
+  setSession({role:'user',id:u.id});page='home';render();
+}
+function superAdminScreen(){
+  authScreen='super'; setDir('ltr');
+  document.body.innerHTML="<div class=auth><div class='card authbox'><div class=center>"+logoHTML("margin:auto")+"<h2>🛡️ Super Admin Login</h2><div class=muted>Separate security for Super Admin controls</div></div>"+
+  "<form class=form onsubmit='event.preventDefault();doSuperAdmin()'><div class=field><label>Super Admin Password</label><input id=pass type=password required autofocus></div><button class='btn primary'>Open Super Admin</button><button type=button class=btn onclick='adminScreen()'>Back to Admin Login</button></form></div></div>";
+}
+async function doSuperAdmin(){
+  DB=loadDB();
+  if(await H($('pass').value.trim())!==DB.superAdminPass){toast('Wrong Super Admin password.');return}
+  setSession({role:'superadmin'});page='superAdmin';render();
+}
+function isSuper(){var s=getSession();return !!s&&s.role==='superadmin'}
+function canAdmin(k){return isSuper() || (getSession()&&getSession().role==='admin'&&DB.adminPermissions&&DB.adminPermissions[k]!==false)}
+
+async function doAdmin(){
+  DB=loadDB();
+  if(await H($('pass').value.trim())!==DB.adminPass){toast('Wrong admin password.');return}
+  setSession({role:'admin'});page='dashboard';render();
+  try{if(window.Notification&&Notification.permission==='default')Notification.requestPermission()}catch(e){}
+}
+function logout(){setSession(null);dueCheck();guestHome()}
+function go(p){page=p;var s=document.querySelector('.side');if(s)s.classList.remove('open');render()}
+
+/* ================= SHELL ================= */
+function myNotifs(uidv){return DB.notifs.filter(function(n){return n.userId===uidv}).sort(function(a,b){return b.time-a.time})}
+var ADMIN_LABELS={dashboard:'Dashboard',adminOrders:'Orders',adminCustomers:'Customers',adminFinance:'Finance',adminServices:'Services',adminDeals:'Deals',adminReviews:'Reviews',adminSettings:'Settings',superAdmin:'Super Admin',superLogin:'Super Admin'};
+function shell(admin,u){
+  var nav;
+  if(admin){
+    var np=DB.orders.filter(function(o){return o.status==='pending'}).length;
+    var nf=DB.feedback.filter(function(f){return f.status==='new'}).length;
+    nav=[["dashboard",0],["adminOrders",np],["adminCustomers",0],["adminFinance",0],["adminServices",0],["adminDeals",0],["adminReviews",nf],["adminSettings",0]];
+    if(!isSuper())nav=nav.filter(function(n){return canAdmin(n[0])});
+    nav.push([isSuper()?'superAdmin':'superLogin',0]);
+  }else{
+    var un=page==='notifs'?0:myNotifs(u.id).filter(function(n){return !n.read}).length;
+    nav=[["home",0],["services",0],["orders",0],["notifs",un],["profile",0],["settings",0]];
+  }
+  var btns=nav.map(function(n){
+    var ic=icon(n[0]),label=admin?ADMIN_LABELS[n[0]]:t('nav_'+n[0]);
+    var action=n[0]==='superLogin'?'superAdminScreen()':"go('"+n[0]+"')";
+    return "<button class='nav"+(page===n[0]?" active":"")+"' onclick=\""+action+"\">"+(ic?"<span class=ni>"+esc(ic)+"</span>":"")+esc(label)+(n[1]?"<span class=bdg>"+n[1]+"</span>":"")+"</button>";
+  }).join('');
+  var lic=icon('logout');
+  document.body.innerHTML="<header class=top><div class=brand><button class='btn mobile' onclick=\"document.querySelector('.side').classList.toggle('open')\">☰</button>"+logoHTML()+esc(DB.shopName)+"</div>"+""+"</header>"+
+  "<aside class=side>"+btns+"<button class=nav onclick='logout()'>"+(lic?"<span class=ni>"+esc(lic)+"</span>":"")+(admin?'Logout':esc(t('logout')))+"</button>"+"</aside><main class=main><div id=content></div></main>";
+}
+function modal(x){
+  var m=document.querySelector('.modalbg');if(m)m.remove();
+  document.body.insertAdjacentHTML('beforeend',"<div class=modalbg><div class='card modal'><button class=close onclick='closeM()'>×</button>"+x+"</div></div>");
+}
+function closeM(){var m=document.querySelector('.modalbg');if(m)m.remove();render()}
+
+var vidURL='',vidVer=0,vidBusy=false;
+function ensureVideo(){
+  var m=DB.vid;if(!m||vidBusy||vidVer===m.v)return;vidBusy=true;
+  idbGet('vid').catch(function(){return null}).then(function(r){
+    if(r&&r.v===m.v)return r.blob;
+    if(!window.cloudChunkGet)throw 0;
+    var ps=[];for(var i=0;i<m.n;i++)ps.push(window.cloudChunkGet(i));
+    return Promise.all(ps).then(function(a){
+      var parts=[];a.forEach(function(x){var b=atob(x),u=new Uint8Array(b.length);for(var j=0;j<b.length;j++)u[j]=b.charCodeAt(j);parts.push(u)});
+      var bl=new Blob(parts,{type:m.type});idbPut('vid',{v:m.v,blob:bl}).catch(function(){});return bl;
+    });
+  }).then(function(bl){vidURL=URL.createObjectURL(bl);vidVer=m.v;vidBusy=false;render()}).catch(function(){vidBusy=false});
+}
+function reencode(file){return new Promise(function(res,rej){
+  if(!window.MediaRecorder){rej();return}
+  var v=document.createElement('video');v.muted=true;v.playsInline=true;v.src=URL.createObjectURL(file);
+  v.onerror=rej;
+  v.onloadedmetadata=function(){
+    var k=Math.min(1,480/v.videoWidth),c=document.createElement('canvas');c.width=Math.round(v.videoWidth*k)&~1;c.height=Math.round(v.videoHeight*k)&~1;
+    var x=c.getContext('2d'),mt=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')?'video/webm;codecs=vp9':'video/webm';
+    var rec=new MediaRecorder(c.captureStream(25),{mimeType:mt,videoBitsPerSecond:600000}),ch=[],maxT=Math.min(v.duration||12,12);
+    rec.ondataavailable=function(e){if(e.data.size)ch.push(e.data)};
+    rec.onstop=function(){res(new Blob(ch,{type:'video/webm'}))};
+    function draw(){x.drawImage(v,0,0,c.width,c.height);if(v.currentTime>=maxT||v.ended){v.pause();rec.stop();return}requestAnimationFrame(draw)}
+    rec.start();v.play().then(draw).catch(rej);
+  };
+})}
+function setBannerVideo(inp){
+  var f=inp.files[0];if(!f)return;
+  if(f.type.indexOf('video')!==0){toast('Video file chunein.');return}
+  if(!window.cloudChunkSet){toast('The database has not loaded yet. Please try again.');return}
+  toast('The video is being prepared. This may take a few seconds.');
+  var go=f.size<=4*1024*1024?Promise.resolve(f):reencode(f);
+  go.then(function(bl){
+    if(bl.size>6*1024*1024)throw 0;
+    return new Promise(function(res){var r=new FileReader();r.onload=function(){res({s:r.result.split(',')[1],t:bl.type||'video/mp4'})};r.readAsDataURL(bl)});
+  }).then(function(o){
+    var parts=[];for(var i=0;i<o.s.length;i+=700000)parts.push(o.s.slice(i,i+700000));
+    return Promise.all(parts.map(function(p,i){return window.cloudChunkSet(i,p)})).then(function(){
+      upd(function(){DB.vid={n:parts.length,type:o.t,v:Date.now()}});toast('Banner video lag gayi.');render();
+    });
+  }).catch(function(){toast('The video could not be saved. Please choose a video up to 12 seconds long.')});
+}
+function delBannerVideo(){upd(function(){DB.vid=null});vidURL='';vidVer=0;toast('Video hata di.');render()}
+function ytId(u){var m=(u||'').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/))([\w-]{11})/);return m?m[1]:''}
+function saveBV(){var v=$('bv').value.trim();if(v&&!safeUrl(v)){toast('Link https:// se shuru hona chahiye.');return}upd(function(){DB.bannerVideo=v});toast(v?'Video link save ho gaya.':'Video hata di.');render()}
+function bannerHTML(title,sub,extra){
+  var media='',vu=safeUrl(DB.bannerVideo),yid=ytId(vu);
+  if(DB.vid)ensureVideo();
+  if(DB.vid&&vidURL&&vidVer===DB.vid.v){
+    media="<video class=bg src='"+vidURL+"' autoplay muted loop playsinline webkit-playsinline preload='metadata'></video><div class=ov></div>";
+  }else if(yid){
+    media="<iframe class=bg src='https://www.youtube-nocookie.com/embed/"+yid+"?autoplay=1&mute=1&loop=1&playlist="+yid+"&controls=0&playsinline=1&modestbranding=1&rel=0' allow='autoplay; encrypted-media' tabindex=-1></iframe><div class=ov></div>";
+  }else if(vu){
+    media="<video class=bg src='"+esc(vu)+"' autoplay muted loop playsinline webkit-playsinline preload='metadata'></video><div class=ov></div>";
+  }else if(bannerURL){
+    media=bannerType==='video'?"<video class=bg src='"+bannerURL+"' autoplay muted loop playsinline webkit-playsinline preload='metadata'></video>":"<img class=bg src='"+bannerURL+"' alt=''>";
+    media+="<div class=ov></div>";
+  }
+  return "<div class=banner>"+media+"<div class=in><h1>"+esc(title)+"</h1><p>"+esc(sub)+"</p>"+(extra||'')+"</div></div>";
+}
+function serviceCard(s,admin){
+  return "<div class='card service'><div><span class=pill>"+s.duration+" "+(admin?'min':esc(t('min')))+"</span><div style='display:flex;justify-content:space-between;gap:10px;margin-top:10px'><div><h3 style='margin:0 0 5px'>"+esc(s.name)+"</h3><div class=muted>"+esc(s.desc)+"</div></div><div class=price>"+money(s.price)+"</div></div></div>"+
+  (admin?"<div><button class=btn onclick=\"editS('"+s.id+"')\">Edit</button> <button class='btn red' onclick=\"delS('"+s.id+"')\">Delete</button></div>":"<button class='btn primary' onclick=\"book('s','"+s.id+"')\">"+esc(t('book_now'))+"</button>")+"</div>";
+}
+function dealActive(d){return new Date(d.until).getTime()>Date.now()}
+function dealCard(d,admin){
+  var act=dealActive(d);
+  return "<div class='card service'><div><span class='pill hot'>🏷 DEAL</span> "+(admin&&!act?"<span class='badge rejected'>Expired</span>":"")+
+  "<div style='display:flex;justify-content:space-between;gap:10px;margin-top:10px'><div><h3 style='margin:0 0 5px'>"+esc(d.title)+"</h3><div class=muted>"+esc(d.items)+"</div></div><div class=price>"+money(d.price)+(d.oldPrice?"<div class=old>"+money(d.oldPrice)+"</div>":"")+"</div></div>"+
+  "<div class=timebox>⏳ "+(admin?'Deal ends in:':esc(t('deal_ends_in')))+" "+cd(new Date(d.until).getTime(),'deal')+"<br><span class=muted>"+(admin?'Ends':esc(t('ends')))+": "+appt(d.until)+"</span></div></div>"+
+  (admin?"<div style='margin-top:10px'><button class=btn onclick=\"editD('"+d.id+"')\">Edit</button> <button class='btn red' onclick=\"delD('"+d.id+"')\">Delete</button></div>":"<button class='btn primary' style='margin-top:10px' onclick=\"book('d','"+d.id+"')\">"+esc(t('book_deal'))+"</button>")+"</div>";
+}
+
+/* ================= RENDER ================= */
+function render(){
+  theme();
+  var s=getSession();
+  if(!s){if(authScreen==='reg')regScreen();else if(authScreen==='admin')adminScreen();else guestHome();return}
+  if(document.querySelector('.modalbg'))return;
+  document.title=DB.shopName;
+  setFavicon();
+  if(s.role==='admin'||s.role==='superadmin'){
+    setDir('ltr');
+    if(s.role==='superadmin'){page='superAdmin';shell(true);superAdminPage();}
+    else {if(['dashboard','adminOrders','adminCustomers','adminFinance','adminServices','adminDeals','adminReviews','adminSettings'].indexOf(page)<0)page='dashboard';if(page!=='dashboard'&&!canAdmin(page)){page='dashboard';toast('This Admin feature is disabled by Super Admin.')}shell(true);adminPage();}
+  }else{
+    var u=byId(DB.users,s.id);
+    if(!u){setSession(null);loginScreen();return}
+    setDir(lang()==='ur'?'rtl':'ltr');
+    if(['home','services','orders','notifs','profile','settings'].indexOf(page)<0)page='home';
+    shell(false,u);userPage(u);
+  }
+  var vids=document.querySelectorAll('video');
+  for(var i=0;i<vids.length;i++){vids[i].muted=true;vids[i].playsInline=true;vids[i].setAttribute('playsinline','');vids[i].setAttribute('webkit-playsinline','');var pr=vids[i].play();if(pr&&pr.catch)pr.catch(function(){})}
+  if(!window._videoRetryBound){window._videoRetryBound=true;document.addEventListener('pointerdown',function(){document.querySelectorAll('video').forEach(function(v){v.muted=true;v.play().catch(function(){})})},{passive:true})}
+  tick();
+  if(s.role==='admin')checkNew();
+  if(s.role==='user')touchUser();
+}
+
+/* ================= CUSTOMER ================= */
+/* A confirmed order's box stays visible until 2 minutes after the shop time (countdown reaches zero).
+   If the order has no shop time, it is removed 2 minutes after it was confirmed. */
+var BOX_MS=120000;
+function boxEnd(o){
+  if(o.status!=='accepted'&&o.status!=='ready')return 0;
+  if(o.confirmedTime){var ct=new Date(o.confirmedTime).getTime();return isNaN(ct)?0:ct+BOX_MS}
+  return o.confirmedAt?o.confirmedAt+BOX_MS:0;
+}
+function boxOrders(mine){
+  var now=Date.now();
+  return mine.filter(function(o){return boxEnd(o)>now}).sort(function(a,b){
+    return (new Date(a.confirmedTime||a.confirmedAt)-new Date(b.confirmedTime||b.confirmedAt))});
+}
+function boxCheck(){
+  var bs=document.querySelectorAll('.livebox[data-hide],.apbox[data-hide]'),gone=false,now=Date.now();
+  for(var i=0;i<bs.length;i++){if(now>=+bs[i].getAttribute('data-hide')){bs[i].remove();gone=true}}
+  if(gone&&!typing()&&!document.querySelector('.modalbg'))render();
+}
+function liveBoxHTML(n){
+  var ur=lang()==='ur',hide=boxEnd(n);
+  if(!n.confirmedTime){
+    return "<div class=livebox data-hide='"+hide+"'><div style='font-weight:800;font-size:17px'>"+(ur?"✅ آپ کا آرڈر کنفرم ہو گیا ہے":"✅ Your order is confirmed!")+"</div><div style='margin-top:4px'>"+esc(n.service)+"</div></div>";
+  }
+  var end=new Date(n.confirmedTime).getTime(),st=n.confirmedAt||n.createdAt||Date.now();
+  return "<div class=livebox data-hide='"+hide+"'><div style='font-weight:800;font-size:17px'>"+(ur?"✅ آپ کا آرڈر کنفرم ہو گیا ہے":"✅ Your order is confirmed!")+"</div>"+
+  "<div style='margin-top:4px'>"+esc(n.service)+"</div>"+
+  "<div style='margin-top:6px;opacity:.9'>"+esc(t('come_at'))+" <b>"+appt(n.confirmedTime)+"</b></div>"+
+  "<div style='font-size:13px;margin-top:8px;opacity:.9'>"+esc(t('time_left_visit'))+"</div>"+cd(end,'appt')+
+  "<div class=pbw><div class=pb data-start='"+st+"' data-end='"+end+"'></div></div></div>";
+}
+function userPage(u){userPage0(u)}
+function userPage0(u){
+  var c=$('content');
+  var mine=DB.orders.filter(function(o){return o.userId===u.id}).sort(function(a,b){return b.createdAt-a.createdAt});
+  var cards=DB.services.map(function(s){return serviceCard(s,false)}).join('');
+  var deals=DB.deals.filter(dealActive).sort(function(a,b){return new Date(a.until)-new Date(b.until)});
+  var dealCards=deals.map(function(d){return dealCard(d,false)}).join('');
+
+  if(page==='home'){
+    var nextHTML=boxOrders(mine).map(liveBoxHTML).join('');
+    var tag=DB.tagline===DEFAULT_TAGLINE?t('tagline'):DB.tagline;
+    c.innerHTML=bannerHTML(DB.shopName,tag,"<p style='margin:6px 0 0;font-weight:700'>"+esc(t('welcome',{name:u.name}))+"</p>")+nextHTML+
+        (deals.length?"<div class=title><h2>🏷 "+esc(t('deals_title'))+"</h2></div><div class=cards>"+dealCards+"</div>":"")+
+    "<div class=title><h2>"+esc(t('services'))+"</h2></div><div class=cards>"+cards+"</div>"+
+    "<div class=fbsmall>"+feedbackHTML(u)+"</div>"+contactHTML();
+  }else if(page==='services'){
+    c.innerHTML=(deals.length?"<div class=title><h2>🏷 "+esc(t('deals_title'))+"</h2></div><div class=cards>"+dealCards+"</div>":"")+"<div class=title><h2>"+esc(t('services'))+"</h2></div><div class=cards>"+cards+"</div>";
+  }else if(page==='orders'){
+    c.innerHTML="<div class=title><h2>"+esc(t('my_orders'))+"</h2></div><div class=card>"+(mine.length?mine.map(function(o){
+      var timeBlock='';
+      if(o.status==='pending')timeBlock="<div class=timebox>⏳ "+esc(t('waiting_admin'))+"</div>";
+      else if(o.confirmedTime&&(o.status==='accepted'||o.status==='ready'))timeBlock="<div class=timebox>🕒 "+esc(t('come_at'))+"<br><b>"+appt(o.confirmedTime)+"</b><br>"+esc(t('time_left'))+" "+cd(new Date(o.confirmedTime).getTime(),'appt')+"</div>";
+      return "<div class=order><div class=og><div><b>"+esc(o.service)+"</b><div class=muted>"+esc(o.userName)+" • "+esc(o.phone)+"</div><div class=muted>"+esc(t('order_received'))+": "+when(o.createdAt)+"</div></div>"+
+      "<div><span class=muted>"+esc(t('you_asked'))+"</span><br>📅 "+appt(o.appointment)+timeBlock+"</div>"+
+      "<div><span class='badge "+o.status+"'>"+esc(t('st_'+o.status))+"</span><div class=muted>"+esc(o.adminNote||'')+"</div></div><b>"+money(o.price)+"</b></div></div>";
+    }).join(''):esc(t('no_orders')))+"</div>";
+  }else if(page==='notifs'){
+    var list=myNotifs(u.id);
+    c.innerHTML="<div class=title><h2>🔔 "+esc(t('notifs_title'))+"</h2></div>"+(list.length?list.map(function(n){return "<div class='notif"+(n.read?"":" isnew")+"'>"+esc(nText(n))+"<div class=muted style='margin-top:4px'>"+when(n.time)+"</div></div>"}).join(''):"<div class=card>"+esc(t('no_notifs'))+"</div>");
+    var unread=list.some(function(n){return !n.read});
+    if(unread){upd(function(){DB.notifs.forEach(function(n){if(n.userId===u.id)n.read=true})})}
+  }else if(page==='profile'){
+    c.innerHTML="<div class=title><h2>"+esc(t('profile_title'))+"</h2></div><div class=card><form class=form onsubmit='event.preventDefault();saveP()'><div class=field><label>"+esc(t('name'))+"</label><input id=pn value='"+esc(u.name)+"' required></div><div class=field><label>"+esc(t('email'))+"</label><input value='"+esc(u.email)+"' disabled></div><div class=field><label>"+esc(t('phone'))+"</label><input id=pp value='"+esc(u.phone||'')+"'></div><div class=field><label>"+esc(t('new_password'))+"</label><input id=pw type=password minlength=4></div><button class='btn primary'>"+esc(t('save'))+"</button></form></div>";
+  }else{
+    c.innerHTML="<div class=title><h2>"+esc(t('settings_title'))+"</h2></div><div class='grid two'>"+
+    "<div class=card><h3>"+esc(t('theme'))+"</h3><button class='btn "+(localStorage.salonTheme!=='dark'?'primary':'')+"' onclick=\"setTheme('light')\">"+esc(t('light'))+"</button> <button class='btn "+(localStorage.salonTheme==='dark'?'primary':'')+"' onclick=\"setTheme('dark')\">"+esc(t('dark'))+"</button></div>"+
+    "<div class=card><h3>🌐 "+esc(t('language'))+"</h3><p class=muted>"+esc(t('lang_note'))+"</p><button class='btn "+(lang()==='en'?'primary':'')+"' onclick=\"setLang('en')\">English</button> <button class='btn "+(lang()==='ur'?'primary':'')+"' onclick=\"setLang('ur')\">اردو</button></div></div>";
+  }
+}
+/* bottom of customer dashboard: contact + complaint/review */
+function safeUrl(u){u=(u||'').trim();return /^https?:\/\//i.test(u)?u:''}
+function mapUrl(v){
+  v=(v||'').trim();if(!v)return '';
+  if(/^https?:\/\//i.test(v))return v;
+  if(/^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/.test(v))return 'https://www.google.com/maps?q='+encodeURIComponent(v.replace(/\s/g,''));
+  return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(v);
+}
+function mapBtns(k){
+  var h='',a=mapUrl(k.addr),b=mapUrl(k.addr2),l=lang()==='ur'?'لوکیشن دیکھیں':'See location';
+  if(a)h+="<a class='btn primary' target=_blank rel=noopener href='"+esc(a)+"'>📍 "+l+"</a>";
+  if(b)h+="<a class='btn primary' target=_blank rel=noopener href='"+esc(b)+"'>📍 "+l+" 2</a>";
+  return h?"<div class=social>"+h+"</div>":'';
+}
+function socialHTML(k){
+  var d=[['fb',ICON_FB,'Facebook'],['ig',ICON_IG,'Instagram'],['yt','▶️','YouTube'],['tt','🎵','TikTok']],h='';
+  d.forEach(function(x){var u=safeUrl(k[x[0]]);if(u)h+="<a class='btn social-direct' target=_blank rel=noopener href='"+esc(u)+"' aria-label='"+x[2]+"'>"+x[1]+" <span>"+x[2]+"</span></a>"});
+  return h?"<div class=social>"+h+"</div>":'';
+}
+var ICON_FB="<svg viewBox='0 0 24 24' width='24' height='24' aria-hidden='true'><circle cx='12' cy='12' r='12' fill='#1877F2'/><path fill='#fff' d='M13.4 19.6v-6.7h2.2l.4-2.7h-2.6V8.6c0-.8.3-1.3 1.4-1.3H16V4.9c-.2 0-1.1-.1-2-.1-2.1 0-3.5 1.3-3.5 3.6v1.8H8.2v2.7h2.3v6.7z'/></svg>";
+var ICON_IG="<svg viewBox='0 0 24 24' width='24' height='24' aria-hidden='true'><defs><linearGradient id='igGrad' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.45' stop-color='#d62976'/><stop offset='1' stop-color='#4f5bd5'/></linearGradient></defs><rect width='24' height='24' rx='6.5' fill='url(#igGrad)'/><rect x='5.4' y='5.4' width='13.2' height='13.2' rx='4' fill='none' stroke='#fff' stroke-width='1.8'/><circle cx='12' cy='12' r='3.2' fill='none' stroke='#fff' stroke-width='1.8'/><circle cx='16.3' cy='7.7' r='1.1' fill='#fff'/></svg>";
+function footSocial(k){
+  var d=[['fb',ICON_FB,'Facebook'],['ig',ICON_IG,'Instagram'],['yt','▶️','YouTube'],['tt','🎵','TikTok']],h='';
+  d.forEach(function(x){var u=safeUrl(k[x[0]]);if(u)h+="<a class=flink target=_blank rel=noopener href='"+esc(u)+"'><span class=ficon>"+x[1]+"</span>"+x[2]+"</a>"});
+  return h;
+}
+function contactHTML(){
+  var k=DB.contact||{},ur=lang()==='ur';
+  var hasC=k.name||k.phone||k.email||k.addr||k.addr2,soc=footSocial(k);
+  return "<footer class=sitefoot><div class=fcols>"+
+  (hasC?"<div class=fcol><h3>📞 "+esc(t('contact_title'))+"</h3>"+
+    (k.name?"<div><b>"+esc(k.name)+"</b></div>":"")+
+    (k.phone?"<div>📱 <a href='tel:"+esc(k.phone)+"'>"+esc(k.phone)+"</a></div>":"")+
+    (k.email?"<div>✉️ <a href='mailto:"+esc(k.email)+"'>"+esc(k.email)+"</a></div>":"")+
+    mapBtns(k)+"</div>":"")+
+  (soc?"<div class=fcol><h3>"+(ur?"ہمیں فالو کریں":"Follow us")+"</h3><div class=social>"+soc+"</div></div>":"")+
+  "</div><div class=fcopy>© "+new Date().getFullYear()+" "+esc(DB.shopName)+"</div></footer>";
+}
+function feedbackHTML(u){
+  fbRating=5;
+  var stars='';
+  for(var i=1;i<=5;i++)stars+="<span class='on' data-n='"+i+"' onclick='setStar("+i+")'>★</span>";
+  return "<div class=title><h2>💬 "+esc(t('fb_title'))+"</h2></div><div class=card><p class=muted style='margin-top:0'>"+esc(t('fb_sub'))+"</p>"+
+  "<form class=form onsubmit='event.preventDefault();sendFeedback()'>"+
+  "<div class=field><label>"+esc(t('fb_type'))+"</label><select id=fk onchange='toggleStars()'><option value='review'>"+esc(t('fb_review'))+"</option><option value='complaint'>"+esc(t('fb_complaint'))+"</option></select></div>"+
+  "<div class=field id=starrow><label>"+esc(t('fb_rating'))+"</label><div class=stars id=stars>"+stars+"</div></div>"+
+  "<div class=field><label>"+esc(t('fb_message'))+"</label><textarea id=fm rows=4 required></textarea></div>"+
+  "<div class=field><label>"+esc(t('fb_name'))+" "+esc(t('fb_optional'))+"</label><input id=fn value='"+esc(u.name)+"'></div>"+
+  "<div class=field><label>"+esc(t('fb_phone'))+" "+esc(t('fb_optional'))+"</label><input id=fp value='"+esc(u.phone||'')+"'></div>"+
+  "<div class=field><label>"+esc(t('fb_email'))+" "+esc(t('fb_optional'))+"</label><input id=fe type=email value='"+esc(u.email)+"'></div>"+
+  "<button class='btn primary'>"+esc(t('fb_send'))+"</button></form></div>";
+}
+function setStar(n){
+  fbRating=n;
+  var sp=document.querySelectorAll('#stars span');
+  for(var i=0;i<sp.length;i++)sp[i].className=(i<n)?'on':'';
+}
+function toggleStars(){var r=$('starrow');if(r)r.style.display=$('fk').value==='review'?'':'none'}
+function sendFeedback(){
+  var u=curUser();if(!u)return;
+  var m=$('fm').value.trim();if(!m)return;
+  var kind=$('fk').value;
+  var rec={id:uid(),userId:u.id,kind:kind,rating:kind==='review'?fbRating:0,message:m,name:$('fn').value.trim(),phone:$('fp').value.trim(),email:$('fe').value.trim(),createdAt:Date.now(),status:'new',reply:''};
+  upd(function(){DB.feedback.push(rec)});
+  toast(t('fb_thanks'));render();
+}
+function curUser(){var s=getSession();return s?byId(DB.users,s.id):null}
+function book(type,id){
+  DB=loadDB();
+  var it=type==='d'?byId(DB.deals,id):byId(DB.services,id),u=curUser();
+  if(!it)return;
+  if(!u){toast(lang()==='ur'?'آرڈر کے لیے پہلے اکاؤنٹ بنائیں':'Please create an account to order');regScreen();return}
+  if(type==='d'&&!dealActive(it)){toast(t('deal_over'));render();return}
+  modal("<h2>"+esc(t('book_title',{name:it.name||it.title}))+"</h2><form class=form onsubmit=\"event.preventDefault();sendOrder('"+type+"','"+id+"')\"><div class=datetime-row><div class=field><label>"+esc(t('date'))+"</label><input id=od type=date min='"+dkey(Date.now())+"' required></div><div class=field><label>"+esc(t('time'))+"</label><input id=ot type=time required></div><button type=button class='btn datetime-now' onclick='setCurrentDateTime()'>📅 Current Date &amp; Time</button></div><div class=field><label>"+esc(t('phone'))+"</label><input id=op value='"+esc(u.phone||'')+"' required></div><div class=field><label>"+esc(t('note'))+"</label><input id=on></div><button class='btn primary'>"+esc(t('send_order'))+"</button></form>");
+}
+function setCurrentDateTime(){
+  var now=new Date(),d=$('od'),tm=$('ot'); if(!d||!tm)return;
+  d.value=dkey(now.getTime()); tm.value=pad(now.getHours())+':'+pad(now.getMinutes());
+}
+async function sendOrder(type,id){
+  if(window.cloudReady && !window.cloudReady()){toast('Please wait a moment while the online database connects.');return}
+  var ph=$('op').value.trim(),ap=$('od').value+'T'+$('ot').value,nt=$('on').value.trim(),u=curUser();
+  if(!u){toast(t('err_login'));return}
+  if(!$('od').value||!$('ot').value){toast('Please select a date and time.');return}
+  upd(function(){
+    var it=type==='d'?byId(DB.deals,id):byId(DB.services,id); if(!it)return;
+    DB.orders.push({id:uid(),userId:u.id,userName:u.name,email:u.email,phone:ph,service:it.name||it.title,serviceId:id,dealId:type==='d'?id:'',price:it.price,appointment:ap,note:nt,status:'pending',adminNote:'',createdAt:Date.now(),_updatedAt:Date.now()});
+  });
+  if(window.cloudFlush)await window.cloudFlush();
+  var m=document.querySelector('.modalbg');if(m)m.remove(); toast(t('order_sent')); go('orders');
+}
+async function saveP(){
+  var nm=$('pn').value.trim(),ph=$('pp').value.trim(),pw=$('pw').value?await H($('pw').value):'',s=getSession();
+  upd(function(){var u=byId(DB.users,s.id);u.name=nm;u.phone=ph;if(pw)u.pass=pw});
+  toast(t('saved'));
+}
+
+/* ================= ADMIN ================= */
+function trialInfo(){
+  var f=DB.freeTrial||{enabled:false,durationDays:DEFAULT_TRIAL_DAYS,startedAt:0},now=Date.now(),days=Math.max(1,Number(f.durationDays)||DEFAULT_TRIAL_DAYS);
+  if(!f.enabled)return {enabled:false,days:days,remaining:0,expiresAt:0,active:false};
+  var started=Number(f.startedAt)||0;
+  if(!started)return {enabled:true,days:days,remaining:days,expiresAt:0,active:true};
+  var expires=started+days*86400000,remaining=Math.max(0,Math.ceil((expires-now)/86400000));
+  return {enabled:true,days:days,remaining:remaining,expiresAt:expires,active:now<expires};
+}
+function superAdminPage(){
+  var c=$('content'),users=DB.users||[],now=Date.now();
+  var registered=users.length;
+  var active=users.filter(function(u){return u.lastSeen&&now-u.lastSeen<900000}).length;
+  var adminAccounts=(DB.adminAccounts&&Array.isArray(DB.adminAccounts))?DB.adminAccounts.length:1;
+  var tr=trialInfo(),f=DB.freeTrial||{};
+  var rows=Object.keys(SUPER_PERMS_DEFAULT).map(function(k){
+    var label=ADMIN_LABELS[k]||k,checked=DB.adminPermissions&&DB.adminPermissions[k]!==false;
+    return "<div class='card' style='display:flex;justify-content:space-between;align-items:center;gap:12px'><div><b>"+esc(label)+"</b><div class=muted>Allow the regular Admin to access this feature</div></div><label style='display:flex;align-items:center;gap:8px'><input type=checkbox data-perm='"+k+"' "+(checked?'checked':'')+"> Enabled</label></div>";
+  }).join('');
+  c.innerHTML="<div class=title><div><h2>🛡️ Super Admin Panel</h2><div class=muted>Only Super Admin can change these controls.</div></div><span class='badge ready'>Protected</span></div>"+
+  "<div class='grid three'><div class='card stat'><h2>"+registered+"</h2><div class=muted>Registered Users / Customers</div></div><div class='card stat'><h2>"+adminAccounts+"</h2><div class=muted>Regular Admin Accounts</div></div><div class='card stat'><h2>"+active+"</h2><div class=muted>Active Users (last 15 minutes)</div></div></div>"+
+  "<div class='title'><h2>Admin Feature Permissions</h2></div><div class='grid two'>"+rows+"</div>"+
+  "<div class=card style='margin-top:18px'><h3>Free Trial</h3><p class=muted>Control how long the website or service remains in free-trial mode. These controls are available only to Super Admin.</p>"+
+  "<form class=form onsubmit='event.preventDefault();saveFreeTrial()'><label style='display:flex;align-items:center;gap:10px'><input id=trialEnabled type=checkbox "+(f.enabled?'checked':'')+"> Enable Free Trial</label>"+
+  "<div class=field><label>Trial Duration (days)</label><input id=trialDays type=number min=1 max=3650 value='"+(Number(f.durationDays)||DEFAULT_TRIAL_DAYS)+"' required></div>"+
+  "<div class=muted>"+(tr.enabled?(tr.active?(tr.remaining+' day(s) remaining'):('Free trial has expired.')):'Free Trial is disabled.')+"</div>"+
+  "<button class='btn primary'>Save Free Trial Settings</button></form></div>"+
+  "<div class=card style='margin-top:18px'><h3>Super Admin Password</h3><form class=form onsubmit='event.preventDefault();changeSuperPassword()'><div class=field><label>Current Super Admin password</label><input id=sold type=password required></div><div class=field><label>New Super Admin password</label><input id=snew type=password minlength=4 required></div><button class='btn primary'>Change Super Admin Password</button></form></div>"+
+  "<div class=card style='margin-top:18px'><h3>Admin Access</h3><p class=muted>Regular Admins cannot open or modify Super Admin settings, Free Trial settings, or Admin permissions.</p></div>";
+  c.querySelectorAll('[data-perm]').forEach(function(el){el.addEventListener('change',function(){var k=this.getAttribute('data-perm');upd(function(){if(!DB.adminPermissions)DB.adminPermissions=JSON.parse(JSON.stringify(SUPER_PERMS_DEFAULT));DB.adminPermissions[k]=el.checked});toast('Admin permissions updated.');render()})});
+}
+function saveFreeTrial(){
+  var enabled=$('trialEnabled').checked,days=Math.max(1,Math.min(3650,parseInt($('trialDays').value,10)||DEFAULT_TRIAL_DAYS)),was=DB.freeTrial||{};
+  upd(function(){
+    if(!DB.freeTrial||typeof DB.freeTrial!=='object')DB.freeTrial={enabled:false,durationDays:DEFAULT_TRIAL_DAYS,startedAt:0};
+    var wasEnabled=!!DB.freeTrial.enabled;
+    DB.freeTrial.durationDays=days;
+    DB.freeTrial.enabled=enabled;
+    if(enabled&&!wasEnabled)DB.freeTrial.startedAt=Date.now();
+    if(!enabled)DB.freeTrial.startedAt=0;
+    if(enabled&&wasEnabled&&!DB.freeTrial.startedAt)DB.freeTrial.startedAt=Date.now();
+  });
+  if(window.cloudFlush)window.cloudFlush();
+  toast(enabled?('Free Trial enabled for '+days+' day(s).'):'Free Trial disabled.');
+  render();
+}
+async function changeSuperPassword(){DB=loadDB();if(await H($('sold').value)!==DB.superAdminPass){toast('Current Super Admin password is incorrect.');return}var n=await H($('snew').value);upd(function(){DB.superAdminPass=n});if(window.cloudFlush)await window.cloudFlush();toast('Super Admin password changed.');$('sold').value='';$('snew').value='';}
+function touchUser(){var s=getSession();if(!s||s.role!=='user')return;var u=byId(DB.users,s.id);if(!u)return;var now=Date.now();if(!u.lastSeen||now-u.lastSeen>60000)upd(function(){var x=byId(DB.users,s.id);if(x)x.lastSeen=now})}
+
+function adminPage(){
+  var c=$('content');
+  if(page!=='dashboard'&&!canAdmin(page)){page='dashboard';return adminPage();}
+  var all=DB.orders.slice().sort(function(a,b){return b.createdAt-a.createdAt});
+
+  if(page==='adminServices'){
+    c.innerHTML="<div class=title><div><h2>Services</h2><div class=muted>Add / edit services</div></div><button class='btn primary' onclick='editS()'>+ Add Service</button></div><div class='grid two'>"+DB.services.map(function(s){return serviceCard(s,true)}).join('')+"</div>";
+
+  }else if(page==='adminDeals'){
+    var dl=DB.deals.slice().sort(function(a,b){return new Date(b.until)-new Date(a.until)});
+    c.innerHTML="<div class=title><div><h2>🏷 Deals</h2><div class=muted>Deals are shown on the customer home page and are automatically hidden when they expire.</div></div><button class='btn primary' onclick='editD()'>+ Add Deal</button></div><div class='grid two'>"+(dl.map(function(d){return dealCard(d,true)}).join('')||"<div class=card>No deals yet.</div>")+"</div>";
+
+    }else if(page==='adminOrders'){
+    var opts=['accepted','ready','done','rejected'];
+    c.innerHTML=apBoardHTML()+"<div class=title><h2>Live Orders</h2><span class=muted>Orders remain saved until their status is changed.</span></div><div class=card>"+(all.map(function(o){
+      var act;
+      var appointmentReached=o.confirmedTime&&Date.now()>=new Date(o.confirmedTime).getTime();
+      if(o.status==='pending'){
+        act="<button class='btn green' onclick=\"confirmModal('"+o.id+"')\">✔ Confirm</button> <button class='btn red' onclick=\"doReject('"+o.id+"')\">✖ Reject</button>";
+      }else if(o.status==='accepted'||o.status==='ready'){
+        act="<select onchange=\"stat('"+o.id+"',this.value)\">"+opts.map(function(x){return "<option"+(x===o.status?" selected":"")+">"+x+"</option>"}).join('')+"</select> "+
+          (appointmentReached?"<button class='btn green' onclick=\"completeAppointment('"+o.id+"')\">✓ Done</button> ":"<button class=btn onclick=\"confirmModal('"+o.id+"')\">🕒 Change Time</button> ");
+      }else{
+        act="<select onchange=\"stat('"+o.id+"',this.value)\">"+opts.map(function(x){return "<option"+(x===o.status?" selected":"")+">"+x+"</option>"}).join('')+"</select> ";
+      }
+      act+=" <button class=btn onclick=\"msg('"+o.id+"')\">Notify</button>";
+      return "<div class=order><div class=og><div><b>"+esc(o.service)+"</b><div>👤 "+esc(o.userName)+"</div><div>📞 "+esc(o.phone)+"</div><div>✉️ "+esc(o.email)+"</div><div class=muted>Order time: "+when(o.createdAt)+"</div>"+(o.note?"<div class=muted>Note: "+esc(o.note)+"</div>":"")+"</div>"+
+      "<div><b>Requested appointment:</b><br>"+appt(o.appointment)+(o.visitReply?"<div class=timebox>"+(o.visitReply==='coming'?'✅ Customer is on the way':'❌ Customer is not coming')+"</div>":"")+(o.confirmedTime?"<div class=timebox>✅ Confirmed time:<br><b>"+appt(o.confirmedTime)+"</b>"+((o.status==='accepted'||o.status==='ready')?"<br>Remaining: "+cd(new Date(o.confirmedTime).getTime(),'appt'):"")+"</div>":"")+"</div>"+
+      "<div><span class='badge "+o.status+"'>"+o.status+"</span><div>"+money(o.price)+"</div></div><div>"+act+"</div></div></div>";
+    }).join('')||"No orders yet.")+"</div>";
+
+
+  }else if(page==='adminCustomers'){
+    var us=DB.users.slice().sort(function(a,b){return (b.createdAt||0)-(a.createdAt||0)});
+    c.innerHTML="<div class=title><div><h2>👥 Customers</h2><div class=muted>Customers who have created an account</div></div><div class=card style='padding:12px 20px'><b style='font-size:22px'>"+us.length+"</b> <span class=muted>total customers</span></div></div><div class=card><div class=tblwrap><table class=tbl><tr><th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Joined</th><th>Orders</th><th>Completed</th><th>Total Spent</th></tr>"+
+    (us.map(function(u,i){
+      var os=DB.orders.filter(function(o){return o.userId===u.id}),dn=os.filter(function(o){return o.status==='done'});
+      return "<tr><td>"+(i+1)+"</td><td><b>"+esc(u.name)+"</b></td><td>"+esc(u.email)+"</td><td>"+esc(u.phone||'—')+"</td><td>"+(u.createdAt?when(u.createdAt):'—')+"</td><td>"+os.length+"</td><td>"+dn.length+"</td><td>"+money(dn.reduce(function(a,o){return a+(+o.price||0)},0))+"</td></tr>";
+    }).join('')||"<tr><td colspan=8>No customers yet.</td></tr>")+"</table></div></div>";
+
+  }else if(page==='adminFinance'){
+    financePage(c);
+
+  }else if(page==='adminReviews'){
+    reviewsPage(c);
+
+  }else if(page==='adminSettings'){
+    settingsPage(c);
+
+  }else{
+    var td=dkey(Date.now()),days=buildDays(),t0=days.filter(function(d){return d.day===td})[0];
+    c.innerHTML=bannerHTMLPlain(DB.adminHeading,DB.shopName,"<div class=bigclock id=bigclock></div><div id=bigdate></div>")+apBoardHTML()+
+    "<div class='grid three' style='margin-top:18px'>"+
+    "<div class='card stat'><h2>"+all.length+"</h2><div class=muted>Total orders</div></div>"+
+    "<div class='card stat'><h2>"+all.filter(function(o){return o.status==='pending'}).length+"</h2><div class=muted>New orders</div></div>"+
+    "<div class='card stat'><h2>"+DB.users.length+"</h2><div class=muted>Customers</div></div>"+
+    "<div class='card stat'><h2>"+money(t0.income)+"</h2><div class=muted>Today's revenue</div></div>"+
+    "<div class='card stat'><h2>"+money(t0.exp)+"</h2><div class=muted>Today's expenses</div></div>"+
+    "<div class='card stat'><h2 class='"+(t0.income-t0.exp>=0?'pos':'neg')+"'>"+money(t0.income-t0.exp)+"</h2><div class=muted>Today's profit</div></div></div>"+
+    "<div class=title><h2>Latest Orders</h2><button class=btn onclick=\"go('adminOrders')\">Open Orders</button></div><div class=card>"+(all.slice(0,5).map(function(o){return "<div class=order><b>"+esc(o.service)+"</b> — "+esc(o.userName)+" — "+appt(o.appointment)+" <span class='badge "+o.status+"'>"+o.status+"</span></div>"}).join('')||"No orders yet.")+"</div>";
+  }
+}
+function completeAppointment(id){
+  upd(function(){
+    var o=byId(DB.orders,id);
+    if(!o)return;
+    o.status='done';
+    o.doneAt=Date.now();
+    pushNotif(o.userId,'done',{service:o.service},o.id);
+  });
+  toast('Appointment marked as completed.');
+  render();
+}
+
+function apBoardHTML(){
+  var now=Date.now();
+  var list=DB.orders.filter(function(o){
+    if((o.status!=='accepted'&&o.status!=='ready')||!o.confirmedTime)return false;
+    var ct=new Date(o.confirmedTime).getTime();
+    return !isNaN(ct)&&now<ct+1800000;
+  }).sort(function(a,b){return new Date(a.confirmedTime)-new Date(b.confirmedTime)});
+  if(!list.length)return '';
+  return "<div class=title><h2>⏰ Upcoming Customers</h2><span class=muted>Live countdown for each confirmed appointment</span></div><div class=apboard>"+list.map(function(o){
+    var ct=new Date(o.confirmedTime).getTime();
+    var due=now>=ct;
+    return "<div class='apbox"+(due?' due':'')+"' data-end='"+ct+"' data-hide='"+(ct+1800000)+"'>"+
+    "<div><div class=apt>✂ "+esc(o.userName)+" is scheduled to arrive at the shop</div>"+
+    "<div class=muted>Service: <b>"+esc(o.service)+"</b> • 🕒 "+appt(o.confirmedTime)+" • 📞 "+esc(o.phone)+"</div>"+
+    (o.visitReply?"<div class=muted style='margin-top:4px'>"+(o.visitReply==='coming'?'✅ Customer is on the way':'❌ Customer is not coming')+"</div>":"")+
+    "<div class=ap-due>🔔 The scheduled arrival time has been reached.</div></div>"+
+    "<div class=apr><div class=muted>Time remaining</div><b class=cdm data-end='"+ct+"'></b>"+
+    "<button class='btn green done-btn' style='margin-top:8px' onclick=\"completeAppointment('"+o.id+"')\">✓ Done</button></div></div>";
+  }).join('')+"</div>";
+}
+
+function bannerHTMLPlain(title,sub,extra){
+  return "<div class=banner><div class=in><h1>"+esc(title)+"</h1><p>"+esc(sub)+"</p>"+(extra||'')+"</div></div>";
+}
+
+/* ---- Admin settings ---- */
+function settingsPage(c){
+  var k=DB.contact||{};
+  var iconRows=ICON_DEF.map(function(r){return "<div class=field><label>"+esc(r[1])+"</label><input id='ic_"+r[0]+"' maxlength=8 value='"+esc(icon(r[0]))+"'></div>"}).join('');
+  var swatches=COLOR_PRESETS.map(function(p,i){return "<div class=swatch title='"+p[0]+"' style='background:linear-gradient(135deg,"+p[1]+","+p[2]+")' onclick='presetColor("+i+")'></div>"}).join('');
+  c.innerHTML="<div class=title><h2>Admin Settings</h2></div><div class='grid two'>"+
+  "<div class=card><h3>Shop Details</h3><form class=form onsubmit='event.preventDefault();saveShop()'><div class=field><label>Shop Name</label><input id=shn value='"+esc(DB.shopName)+"' required></div><div class=field><label>Admin heading (dashboard banner)</label><input id=adh value='"+esc(DB.adminHeading)+"' required></div><div class=field><label>Customer banner text</label><input id=tgl value='"+esc(DB.tagline)+"'></div><button class='btn primary'>Save</button></form></div>"+
+
+  "<div class=card><h3>📞 Contact Information</h3><p class=muted>These details appear at the bottom of the customer home page.</p><form class=form onsubmit='event.preventDefault();saveContact()'><div class=field><label>Naam</label><input id=kn value='"+esc(k.name||'')+"'></div><div class=field><label>Number</label><input id=kp value='"+esc(k.phone||'')+"'></div><div class=field><label>Email</label><input id=ke value='"+esc(k.email||'')+"'></div><div class=field><label>Shop location (Google Maps link, coordinates, or address). Customers will see only the “See location” button.</label><input id=ka value='"+esc(k.addr||'')+"'></div><div class=field><label>Second location (optional)</label><input id=ka2 value='"+esc(k.addr2||'')+"'></div><div class=field><label>Facebook page link</label><input id=kf placeholder='https://facebook.com/...' value='"+esc(k.fb||'')+"'></div><div class=field><label>Instagram link</label><input id=ki placeholder='https://instagram.com/...' value='"+esc(k.ig||'')+"'></div><div class=field><label>YouTube link</label><input id=ky placeholder='https://youtube.com/...' value='"+esc(k.yt||'')+"'></div><div class=field><label>TikTok link</label><input id=kt placeholder='https://tiktok.com/@...' value='"+esc(k.tt||'')+"'></div><button class='btn primary'>Save</button></form></div>"+
+
+  "<div class=card><h3>🎨 Colors</h3><p class=muted>Choose a preset or select your own colors. These colors will be used for buttons, the banner, and highlights.</p><div class=swatches>"+swatches+"</div><div class=form style='margin-top:14px;grid-template-columns:1fr 1fr'><div class=field><label>Main color</label><input type=color id=cp1 value='"+esc(DB.colorP)+"' oninput='previewColors()'></div><div class=field><label>Second color</label><input type=color id=cp2 value='"+esc(DB.colorS)+"' oninput='previewColors()'></div><div class=field><label>Background color</label><input type=color id=cbg value='"+esc(DB.bgColor||'#f4f1fb')+"'></div>"+bgSwatches()+"</div><div style='margin-top:12px'><button class='btn primary' onclick='saveColors()'>Save Colors</button> <button class=btn onclick='resetColors()'>Reset</button></div></div>"+
+
+  "<div class=card><h3>🖼 Website icon / Logo</h3><p class=muted>Upload an image to use as the browser tab icon, header logo, and login-page logo. If no image is uploaded, the default logo icon will be used.</p><input type=file accept='image/*' onchange='setLogo(this)'> "+(logoURL?"<button class='btn red' onclick='delLogo()'>Remove Logo</button><br><img class=preview style='max-height:90px' src='"+logoURL+"' alt=''>":"")+"</div>"+
+
+  
+
+  "<div class=card><h3>Customer Page Banner</h3><p class=muted>Upload a photo. It will be optimized for online storage and displayed to all customers. For a video, provide a link below.</p><div class=field style='margin-bottom:10px'><label>Banner video link (YouTube ya direct .mp4 link)</label><input id=bv placeholder='https://youtube.com/watch?v=...' value='"+esc(DB.bannerVideo||'')+"'></div><button class='btn primary' onclick='saveBV()' style='margin-bottom:12px'>Save video link</button><div class=field style='margin:10px 0'><label>Or choose a video from your gallery. It will be optimized for online storage and must be no longer than 12 seconds.</label><input type=file accept='video/*' onchange='setBannerVideo(this)'></div>"+(DB.vid?"<button class='btn red' onclick='delBannerVideo()' style='margin-bottom:12px'>Remove Gallery Video</button><br>":"")+"<input type=file accept='image/*' onchange='setBanner(this)'> "+(bannerURL?"<button class='btn red' onclick='delBanner()'>Remove Banner</button>":"")+
+  (bannerURL?(bannerType==='video'?"<video class=preview src='"+bannerURL+"' muted loop autoplay playsinline></video>":"<img class=preview src='"+bannerURL+"' alt=''>"):"<p class=muted>No banner has been added yet.</p>")+"</div>"+
+
+  "<div class=card><h3>Change Admin Password</h3><form class=form onsubmit='event.preventDefault();cp()'><div class=field><label>Current password</label><input id=old type=password required></div><div class=field><label>New password</label><input id=np type=password minlength=3 required></div><button class='btn primary'>Change Password</button></form></div>"+
+
+  "<div class=card><h3>✨ Animation</h3><p class=muted>Turn button and card animations on or off.</p><button class='btn primary' onclick='toggleAnim()'>"+(DB.anim!==false?'ON — turn it off':'OFF — turn it on')+"</button></div>"+
+  "<div class=card><h3>Theme</h3><button class=btn onclick=\"setTheme('light')\">Light</button> <button class='btn primary' onclick=\"setTheme('dark')\">Black / Dark</button>"+
+  "<h3 style='margin-top:22px'>Backup</h3><p class=muted>Data is stored in this browser. Create a backup before clearing your browser data.</p><button class=btn onclick='backup()'>⬇ Download Backup</button> <label class=btn style='display:inline-block'>⬆ Restore<input type=file accept='.json' style='display:none' onchange='restore(this)'></label></div></div>";
+}
+function previewColors(){
+  var r=document.documentElement.style;
+  r.setProperty('--p',$('cp1').value);r.setProperty('--s',$('cp2').value);
+}
+function presetColor(i){$('cp1').value=COLOR_PRESETS[i][1];$('cp2').value=COLOR_PRESETS[i][2];previewColors()}
+function saveColors(){
+  var a=$('cp1').value,b=$('cp2').value,bg=$('cbg').value;
+  upd(function(){DB.colorP=a;DB.colorS=b;DB.bgColor=bg});
+  toast('Colors saved.');render();
+}
+function resetColors(){upd(function(){DB.colorP=DEF_P;DB.colorS=DEF_S;DB.bgColor=''});toast('Colors reset.');render()}
+function saveIcons(){
+  var m={};
+  ICON_DEF.forEach(function(r){var el=$('ic_'+r[0]);if(el)m[r[0]]=el.value.trim()});
+  upd(function(){DB.icons=m});
+  toast('Icons saved.');render();
+}
+function resetIcons(){upd(function(){DB.icons={}});toast('Icons reset.');render()}
+var BG_PRESETS=[['White','#ffffff'],['Cream','#fbf7ef'],['Lavender','#f4f1fb'],['Halka blue','#eef6ff'],['Blue','#d6e9ff'],['Gehra blue','#b3d4ff'],['Mint','#e8f7ef'],['Pink','#fdeef4']];
+function bgSwatches(){return "<div style='grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap'>"+BG_PRESETS.map(function(x){return "<button type=button class=bgsw title='"+x[0]+"' data-c='"+x[1]+"' style='width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:"+x[1]+";cursor:pointer'></button>"}).join('')+"</div>"}
+function toggleAnim(){upd(function(){DB.anim=(DB.anim===false)});render()}
+function saveContact(){
+  var a=$('kn').value.trim(),b=$('kp').value.trim(),c2=$('ke').value.trim(),d=$('ka').value.trim(),d2=$('ka2').value.trim(),fb=$('kf').value.trim(),ig=$('ki').value.trim(),yt=$('ky').value.trim(),tt=$('kt').value.trim();
+  upd(function(){DB.contact={name:a,phone:b,email:c2,addr:d,addr2:d2,fb:fb,ig:ig,yt:yt,tt:tt}});
+  toast('Contact information saved.');render();
+}
+
+/* ---- Reviews / complaints (admin) ---- */
+function stars(n){n=+n||0;return '★'.repeat(n)+'☆'.repeat(5-n)}
+function reviewsPage(c){
+  var list=DB.feedback.slice().sort(function(a,b){return b.createdAt-a.createdAt});
+  var revs=list.filter(function(f){return f.kind==='review'&&f.rating>0});
+  var avg=revs.length?(revs.reduce(function(a,f){return a+f.rating},0)/revs.length).toFixed(1):'—';
+  c.innerHTML="<div class=title><div><h2>⭐ Reviews & Complaints</h2><div class=muted>Customers ke bheje hue messages</div></div></div>"+
+  "<div class='grid three'><div class='card stat'><h2>"+list.length+"</h2><div class=muted>Total messages</div></div><div class='card stat'><h2>"+avg+(revs.length?" <span class=star-s>★</span>":"")+"</h2><div class=muted>Average rating ("+revs.length+" reviews)</div></div><div class='card stat'><h2>"+list.filter(function(f){return f.kind==='complaint'}).length+"</h2><div class=muted>Complaints</div></div></div>"+
+  "<div style='margin-top:18px'>"+(list.map(function(f){
+    return "<div class=card style='margin-bottom:14px'><div style='display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap'><div><span class='badge "+(f.kind==='complaint'?'rejected':'ready')+"'>"+(f.kind==='complaint'?'Complaint':'Review')+"</span> <span class='badge "+f.status+"'>"+f.status+"</span>"+(f.kind==='review'?" <span class=star-s>"+stars(f.rating)+"</span>":"")+"</div><div class=muted>"+when(f.createdAt)+"</div></div>"+
+    "<p style='white-space:pre-wrap'>"+esc(f.message)+"</p>"+
+    "<div class=muted>"+(f.name?"👤 "+esc(f.name)+" &nbsp; ":"")+(f.phone?"📞 "+esc(f.phone)+" &nbsp; ":"")+(f.email?"✉️ "+esc(f.email):"")+"</div>"+
+    (f.reply?"<div class=timebox>↩ Your reply: "+esc(f.reply)+"</div>":"")+
+    "<div style='margin-top:12px'><button class=btn onclick=\"replyF('"+f.id+"')\">↩ Reply</button> <button class=btn onclick=\"toggleSeen('"+f.id+"')\">"+(f.status==='new'?'✔ Mark seen':'↺ Mark new')+"</button> <button class='btn red' onclick=\"delF('"+f.id+"')\">Delete</button></div></div>";
+  }).join('')||"<div class=card>Abhi koi review ya complaint nahi.</div>")+"</div>";
+}
+function toggleSeen(id){upd(function(){var f=byId(DB.feedback,id);if(f)f.status=f.status==='new'?'seen':'new'});render()}
+function delF(id){if(confirm('Ye message delete karein?')){upd(function(){DB.feedback=DB.feedback.filter(function(f){return f.id!==id})});render()}}
+function replyF(id){
+  DB=loadDB();
+  var f=byId(DB.feedback,id);if(!f)return;
+  modal("<h2>Reply to Customer</h2><p class=muted>"+esc(f.name||'Customer')+": "+esc(f.message.slice(0,120))+"</p><form class=form onsubmit=\"event.preventDefault();sendReply('"+id+"')\"><div class=field><label>Your reply</label><input id=rp value='"+esc(f.reply||'')+"' required></div><button class='btn primary'>Send</button></form>");
+}
+function sendReply(id){
+  var tx=$('rp').value.trim();if(!tx)return;
+  upd(function(){
+    var f=byId(DB.feedback,id);if(!f)return;
+    f.reply=tx;f.status='seen';
+    pushNotif(f.userId,'reply',{kind:f.kind,text:tx},'');
+  });
+  toast('Jawab bhej diya.');closeM();
+}
+
+/* ---- Finance ---- */
+function buildDays(){
+  var m={};
+  function g(k){return m[k]||(m[k]={day:k,orders:0,done:0,income:0,exp:0})}
+  g(dkey(Date.now()));
+  DB.orders.forEach(function(o){
+    g(dkey(o.createdAt)).orders++;
+    if(o.status==='accepted'||o.status==='ready'||o.status==='done'){var r=g(dkey(o.confirmedAt||o.doneAt||o.createdAt));r.done++;r.income+=(+o.price||0)}
+  });
+  DB.expenses.forEach(function(e){g(e.date).exp+=(+e.amount||0)});
+  return Object.keys(m).sort().reverse().map(function(k){return m[k]});
+}
+function sumDays(arr){return arr.reduce(function(a,d){a.orders+=d.orders;a.done+=d.done;a.income+=d.income;a.exp+=d.exp;return a},{orders:0,done:0,income:0,exp:0})}
+function finCard(label,s){
+  var p=s.income-s.exp;
+  return "<div class=card><h3 style='margin:0 0 10px'>"+label+"</h3>"+
+  "<div class=muted>Orders aaye</div><b>"+s.orders+"</b> <span class=muted>(confirm: "+s.done+")</span>"+
+  "<div class=muted style='margin-top:8px'>Kamai (Income)</div><b>"+money(s.income)+"</b>"+
+  "<div class=muted style='margin-top:8px'>Kharcha / Bills</div><b>"+money(s.exp)+"</b>"+
+  "<div class=muted style='margin-top:8px'>Profit</div><b class='"+(p>=0?'pos':'neg')+"' style='font-size:20px'>"+money(p)+"</b></div>";
+}
+function financePage(c){
+  var days=buildDays(),td=dkey(Date.now()),mo=td.slice(0,7);
+  var today=days.filter(function(d){return d.day===td});
+  var month=days.filter(function(d){return d.day.slice(0,7)===mo});
+  var todayExp=DB.expenses.filter(function(e){return e.date===td}).sort(function(a,b){return b.createdAt-a.createdAt});
+  var tTotal=todayExp.reduce(function(a,e){return a+(+e.amount||0)},0);
+  var recent=DB.expenses.slice().sort(function(a,b){return b.createdAt-a.createdAt}).slice(0,20);
+  var cats=['Shop Bill','Bijli / Gas / Pani','Rent','Salary','Saman / Products','Dusra'];
+  c.innerHTML="<div class=title><div><h2>💰 Finance</h2><div class=muted>All totals are calculated automatically and saved. The order amount is added to revenue and profit when the order is confirmed.</div></div></div>"+
+  "<div class='grid three'>"+finCard('Aaj ('+td+')',sumDays(today))+finCard('Is mahine',sumDays(month))+finCard('Ab tak ka total',sumDays(days))+"</div>"+
+  "<div class=title><h2>Kharcha / Bill add karein</h2></div><div class=card><form class=form onsubmit='event.preventDefault();addExp()' style='grid-template-columns:repeat(auto-fit,minmax(150px,1fr));align-items:end'>"+
+  "<div class=field><label>Kis cheez ka</label><input id=et placeholder='e.g. Bijli ka bill' required></div>"+
+  "<div class=field><label>Category</label><select id=ec>"+cats.map(function(x){return "<option>"+x+"</option>"}).join('')+"</select></div>"+
+  "<div class=field><label>Amount (Rs.)</label><input id=ea type=number min=1 required></div>"+
+  "<div class=field><label>Date</label><input id=ed type=date value='"+td+"' required></div>"+
+  "<button class='btn primary'>+ Add</button></form></div>"+
+  "<div class=title><h2>Today's expenses: <span class=neg>"+money(tTotal)+"</span></h2></div><div class=card>"+
+  (todayExp.length?todayExp.map(function(e){return "<div class=order style='display:flex;justify-content:space-between;gap:10px;align-items:center'><div><b>"+esc(e.title)+"</b> <span class=pill>"+esc(e.cat)+"</span><div class=muted>"+when(e.createdAt)+"</div></div><div><b>"+money(e.amount)+"</b> <button class='btn red' onclick=\"delE('"+e.id+"')\">✕</button></div></div>"}).join(''):"No expenses have been added today.")+"</div>"+
+  "<div class=title><h2>Din ba din hisaab</h2></div><div class=card><div class=tblwrap><table class=tbl><tr><th>Date</th><th>Orders aaye</th><th>Confirm</th><th>Kamai</th><th>Kharcha</th><th>Profit</th></tr>"+
+  days.map(function(d){var p=d.income-d.exp;return "<tr><td><b>"+d.day+"</b></td><td>"+d.orders+"</td><td>"+d.done+"</td><td>"+money(d.income)+"</td><td>"+money(d.exp)+"</td><td class='"+(p>=0?'pos':'neg')+"'><b>"+money(p)+"</b></td></tr>"}).join('')+"</table></div></div>"+
+  "<div class=title><h2>Pichle kharche (aakhri 20)</h2></div><div class=card>"+(recent.length?"<div class=tblwrap><table class=tbl><tr><th>Date</th><th>Cheez</th><th>Category</th><th>Amount</th></tr>"+recent.map(function(e){return "<tr><td>"+e.date+"</td><td>"+esc(e.title)+"</td><td>"+esc(e.cat)+"</td><td>"+money(e.amount)+"</td></tr>"}).join('')+"</table></div>":"Koi kharcha nahi.")+"</div>";
+}
+function addExp(){
+  var tt=$('et').value.trim(),cat=$('ec').value,a=+$('ea').value,d=$('ed').value;
+  if(!tt||!(a>0)||!d){toast('Poori details likhein.');return}
+  upd(function(){DB.expenses.push({id:uid(),title:tt,cat:cat,amount:a,date:d,createdAt:Date.now()})});
+  toast('Expense added.');render();
+}
+function delE(id){if(confirm('Ye kharcha delete karein?')){upd(function(){DB.expenses=DB.expenses.filter(function(e){return e.id!==id})});render()}}
+
+/* ---- Orders: confirm popup ---- */
+var _ac=null,notified={};
+function ding(){try{
+  var A=window.AudioContext||window.webkitAudioContext;if(!A)return;_ac=_ac||new A();if(_ac.state==='suspended')_ac.resume();
+  var t0=_ac.currentTime;
+  [[880,0],[1175,.16],[1568,.32]].forEach(function(n){var o=_ac.createOscillator(),g=_ac.createGain();o.type='sine';o.frequency.value=n[0];o.connect(g);g.connect(_ac.destination);
+    g.gain.setValueAtTime(0.0001,t0+n[1]);g.gain.exponentialRampToValueAtTime(.4,t0+n[1]+.03);g.gain.exponentialRampToValueAtTime(.0001,t0+n[1]+.45);o.start(t0+n[1]);o.stop(t0+n[1]+.5)});
+}catch(e){}}
+function notifyAdmin(title,body){
+  ding();toast('🔔 '+title+(body?' - '+body:''));
+  try{if(window.Notification&&Notification.permission==='granted')new Notification(title,{body:body||'',icon:'icon-192.png'})}catch(e){}
+}
+function checkNew(){
+  if(document.querySelector('.modalbg'))return;
+  var o=DB.orders.filter(function(x){return x.status==='pending'&&!prompted[x.id]})[0];
+  if(o){prompted[o.id]=1;if(!notified[o.id]){notified[o.id]=1;notifyAdmin('A new order has arrived',o.userName+' - '+o.service)}confirmModal(o.id)}
+}
+function confirmModal(id){
+  DB=loadDB();
+  var o=byId(DB.orders,id);if(!o)return;
+  var isNew=o.status==='pending';
+  modal("<h2>"+(isNew?'🔔 New Order':'🕒 Change Appointment Time')+"</h2>"+
+  "<p><b>"+esc(o.userName)+"</b>  placed the order at <b>"+when(o.createdAt)+"</b> par order kiya hai.</p>"+
+  "<div class=timebox style='margin-bottom:12px'>✂ <b>"+esc(o.service)+"</b> — "+money(o.price)+"<br>📞 "+esc(o.phone)+"<br>✉️ "+esc(o.email)+"<br>📅 Customer's requested time:<br><b>"+appt(o.appointment)+"</b>"+(o.note?"<br>📝 "+esc(o.note):"")+"</div>"+
+  "<p>"+(isNew?'<b>Would you like to confirm this order?</b>':'<b>Choose a new appointment time:</b>')+"</p>"+
+  "<form class=form onsubmit=\"event.preventDefault();doConfirm('"+id+"')\">"+
+  "<div class=field><label>When should the customer arrive at the shop?</label><input id=ct type=datetime-local value='"+esc(o.confirmedTime||o.appointment)+"' required></div>"+
+  "<div class=field><label>Message for the customer (optional)</label><input id=cm></div>"+
+  "<button class='btn primary'>✔ Confirm</button>"+
+  (isNew?"<button type=button class='btn red' onclick=\"doReject('"+id+"')\">✖ Reject</button>":"")+
+  "<button type=button class=btn onclick='closeM()'>"+(isNew?'Baad mein':'Cancel')+"</button></form>");
+}
+function doConfirm(id){
+  var tt=$('ct').value,mx=$('cm').value.trim();
+  if(!tt){toast('Please enter a time.');return}
+  upd(function(){
+    var o=byId(DB.orders,id);if(!o)return;
+    var changed=!!o.confirmedTime;
+    if(o.status==='pending')o.status='accepted';
+    if(!o.confirmedAt)o.confirmedAt=Date.now();
+    o.confirmedTime=tt;o.confirmedAt=Date.now();
+    o.dueNotified=false;
+    pushNotif(o.userId,changed?'retime':'confirm',{service:o.service,time:tt,msg:mx},o.id);
+  });
+  toast('Order confirmed. The customer has been notified.');
+  closeM();
+}
+function doReject(id){
+  if(!confirm('Reject this order?'))return;
+  upd(function(){
+    var o=byId(DB.orders,id);if(!o)return;
+    o.status='rejected';
+    pushNotif(o.userId,'rejected',{service:o.service},o.id);
+  });
+  toast('Order rejected.');
+  closeM();
+}
+function stat(id,s){
+  DB=loadDB();
+  var o0=byId(DB.orders,id);
+  if(s==='accepted'&&!o0.confirmedTime){confirmModal(id);return}
+  upd(function(){
+    var o=byId(DB.orders,id);if(!o)return;
+    var was=o.status;o.status=s;
+    if((s==='accepted'||s==='ready'||s==='done')&&!o.confirmedAt)o.confirmedAt=Date.now();
+    if(s==='done'&&was!=='done')o.doneAt=Date.now();
+    if(s!=='done')o.doneAt=null;
+    if(s!==was){
+      if(s==='ready'||s==='done'||s==='rejected'||s==='accepted')pushNotif(o.userId,s,{service:o.service},o.id);
+    }
+  });
+  toast('The customer has been notified of the status change.');render();
+}
+function msg(id){
+  DB=loadDB();
+  var o=byId(DB.orders,id);
+  modal("<h2>Customer Notification</h2><p class=muted>"+esc(o.userName)+" — "+esc(o.service)+"</p><form class=form onsubmit=\"event.preventDefault();sendMsg('"+id+"')\"><div class=field><label>Message</label><input id=mn value='"+esc(o.adminNote||'')+"' required></div><button class='btn primary'>Send</button></form>");
+}
+function sendMsg(id){
+  var tt=$('mn').value.trim();if(!tt)return;
+  upd(function(){var o=byId(DB.orders,id);if(!o)return;o.adminNote=tt;pushNotif(o.userId,'msg',{service:o.service,text:tt},o.id)});
+  toast('Message bhej diya.');closeM();
+}
+
+/* ---- Services ---- */
+function editS(id){
+  var s=id?byId(DB.services,id):{name:'',price:500,duration:30,desc:''};
+  modal("<h2>"+(id?'Edit':'Add')+" Service</h2><form class=form onsubmit=\"event.preventDefault();saveS('"+(id||'')+"')\"><div class=field><label>Name</label><input id=sn value='"+esc(s.name)+"' required></div><div class=field><label>Price</label><input id=sp type=number value='"+s.price+"' required></div><div class=field><label>Duration (min)</label><input id=sd type=number value='"+s.duration+"' required></div><div class=field><label>Description</label><input id=sx value='"+esc(s.desc)+"' required></div><button class='btn primary'>Save Service</button></form>");
+}
+function saveS(id){
+  var x={name:$('sn').value,price:+$('sp').value,duration:+$('sd').value,desc:$('sx').value};
+  upd(function(){
+    if(id){var s=byId(DB.services,id);if(s){s.name=x.name;s.price=x.price;s.duration=x.duration;s.desc=x.desc}}
+    else{x.id=uid();DB.services.push(x)}
+  });
+  toast('Service saved.');closeM();
+}
+function delS(id){if(confirm('Delete service?')){upd(function(){DB.services=DB.services.filter(function(s){return s.id!==id})});render()}}
+
+/* ---- Deals ---- */
+function editD(id){
+  var d=id?byId(DB.deals,id):{title:'',items:'',price:1000,oldPrice:'',until:''};
+  modal("<h2>"+(id?'Edit':'Add')+" Deal</h2><form class=form onsubmit=\"event.preventDefault();saveD('"+(id||'')+"')\">"+
+  "<div class=field><label>Deal Name</label><input id=dt value='"+esc(d.title)+"' placeholder='e.g. Groom Package' required></div>"+
+  "<div class=field><label>What's included</label><input id=di value='"+esc(d.items)+"' placeholder='e.g. Hair Cut + Beard Trim + Hair Wash' required></div>"+
+  "<div class=field><label>Deal Price (Rs.)</label><input id=dp type=number min=0 value='"+d.price+"' required></div>"+
+  "<div class=field><label>Asal qeemat (optional, kat kar dikhegi)</label><input id=do type=number min=0 value='"+(d.oldPrice||'')+"'></div>"+
+  "<div class=field><label>Deal Expiration Time</label><input id=du type=datetime-local value='"+esc(d.until)+"' required></div>"+
+  "<button class='btn primary'>Save Deal</button></form>");
+}
+function saveD(id){
+  var x={title:$('dt').value.trim(),items:$('di').value.trim(),price:+$('dp').value,oldPrice:+$('do').value||0,until:$('du').value};
+  upd(function(){
+    if(id){var d=byId(DB.deals,id);if(d){d.title=x.title;d.items=x.items;d.price=x.price;d.oldPrice=x.oldPrice;d.until=x.until}}
+    else{x.id=uid();DB.deals.push(x)}
+  });
+  toast('Deal saved.');closeM();
+}
+function delD(id){if(confirm('Deal delete karein?')){upd(function(){DB.deals=DB.deals.filter(function(d){return d.id!==id})});render()}}
+
+/* ---- Settings actions ---- */
+function saveShop(){
+  var a=$('shn').value.trim(),b=$('adh').value.trim(),c2=$('tgl').value.trim();
+  upd(function(){DB.shopName=a||'SalonPro';DB.adminHeading=b||'Welcome Owner';DB.tagline=c2||DEFAULT_TAGLINE});
+  toast('Saved.');render();
+}
+async function cp(){
+  DB=loadDB();
+  if(await H($('old').value)!==DB.adminPass){toast('Current password ghalat hai.');return}
+  var n=await H($('np').value);
+  upd(function(){DB.adminPass=n});
+  toast('Password changed');$('old').value='';$('np').value='';
+}
+function backup(){
+  DB=loadDB();
+  var blob=new Blob([JSON.stringify(DB,null,1)],{type:'application/json'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='salon-backup-'+dkey(Date.now())+'.json';
+  document.body.appendChild(a);a.click();a.remove();
+}
+function restore(inp){
+  var f=inp.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var d=JSON.parse(r.result);
+      if(!d||!Array.isArray(d.orders)||!Array.isArray(d.users))throw 0;
+      if(!confirm('The current data will be replaced. Continue?'))return;
+      DB=d;save();DB=loadDB();toast('Data restored successfully.');render();
+    }catch(e){toast('Ghalat backup file.')}
+  };
+  r.readAsText(f);
+}
+
+/* ================= LIVE UPDATE FROM OTHER TABS ================= */
+function typing(){var a=document.activeElement;return !!a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)}
+function remoteChanged(){
+  var s=getSession(),before={},fbBefore=DB.feedback.length,ob={},vr={};
+  DB.orders.forEach(function(o){ob[o.id]=1;vr[o.id]=o.visitReply||''});
+  DB.notifs.forEach(function(n){before[n.id]=1});
+  var oldB=DB.bannerVersion,oldL=DB.logoVersion;
+  DB=loadDB();
+  theme();
+  if(oldB!==DB.bannerVersion)loadBanner();
+  if(oldL!==DB.logoVersion)loadLogo();
+  if(s&&s.role==='user'){
+    var fresh=DB.notifs.filter(function(n){return n.userId===s.id&&!before[n.id]});
+    if(fresh.length)toast('🔔 '+nText(fresh[fresh.length-1]));
+  }
+  if(s&&s.role==='admin'){
+    if(DB.feedback.length>fbBefore)toast('⭐ New review or complaint received');
+    DB.orders.forEach(function(o){
+      if(o.status==='pending'&&!ob[o.id]&&!notified[o.id]){notified[o.id]=1;notifyAdmin('A new order has arrived',o.userName+' - '+o.service)}
+      if(o.visitReply&&vr[o.id]!==o.visitReply)notifyAdmin(o.visitReply==='coming'?'Customer is on the way':'Customer is not coming',o.userName+' - '+o.service);
+    });
+  }
+  if(!s){if(authScreen==='guest')guestHome();return}
+  /* do not wipe what someone is typing; refresh after he leaves the field */
+  if(typing()){pendingRender=true;return}
+  render();
+}
+window.addEventListener('storage',function(e){if(e.key===KEY)remoteChanged()});
+document.addEventListener('focusout',function(){
+  if(!pendingRender)return;
+  setTimeout(function(){if(pendingRender&&!typing()){pendingRender=false;render()}},400);
+});
+
+function showWelcome(){
+  if(sessionStorage.salonWelcome||$('welcome'))return;
+  sessionStorage.salonWelcome='1';
+  var d=document.createElement('div');d.id='welcome';
+  d.innerHTML="<div><div style='font-size:54px'>✨</div><div class=wl>"+(lang()==='ur'?'خوش آمدید':'Welcome to')+"</div><div class=wn>"+esc(DB.shopName)+"</div></div>";
+  document.documentElement.appendChild(d);
+  setTimeout(function(){d.classList.add('out')},1800);
+  setTimeout(function(){d.remove()},2500);
+}
+(function(){
+  var tm=null;
+  function stop(){if(tm){clearTimeout(tm);tm=null}}
+  document.addEventListener('pointerdown',function(e){
+    if(!e.target.closest||!e.target.closest('.logo'))return;
+    stop();
+    tm=setTimeout(function(){tm=null;var s=getSession();if(!s||s.role!=='admin')adminScreen()},5000);
+  });
+  document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.bgsw');if(b&&$('cbg'))$('cbg').value=b.getAttribute('data-c')});
+  document.addEventListener('pointerup',stop);
+  document.addEventListener('pointercancel',stop);
+  document.addEventListener('contextmenu',function(e){if(e.target.closest&&e.target.closest('.logo'))e.preventDefault()});
+})();
+/* ================= INSTALL APP (PWA) ================= */
+var deferredInstall=null;
+function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||navigator.standalone}
+function instLabel(){return lang()==='ur'?'📲 ایپ انسٹال کریں':'📲 Install app'}
+function hideInstall(){var b=$('installBar');if(b)b.remove();document.body.classList.remove('hasinstall')}
+function showInstall(){
+  if(isStandalone()||$('installBar'))return;
+  var d=document.createElement('div');d.id='installBar';
+  d.innerHTML="<button class='btn primary' onclick='doInstall()'>"+instLabel()+"</button>";
+  document.documentElement.appendChild(d);
+  document.body.classList.add('hasinstall');
+}
+function refreshInstall(){
+  if(isStandalone()){hideInstall();return}
+  if(!$('installBar')){showInstall();return}
+  var b=$('installBar').firstChild,l=instLabel();
+  if(b&&b.textContent!==l)b.textContent=l;
+}
+function installBtn(){return ''}
+function doInstall(){
+  if(deferredInstall){
+    var ev=deferredInstall;deferredInstall=null;
+    ev.prompt();
+    ev.userChoice.then(function(r){if(r&&r.outcome==='accepted')hideInstall()}).catch(function(){});
+    return;
+  }
+  /* iPhone/iPad: Safari has no install API, so open the share sheet directly */
+  if(/iphone|ipad|ipod/i.test(navigator.userAgent)&&navigator.share){
+    navigator.share({title:DB.shopName,url:location.href}).catch(function(){});
+    return;
+  }
+  toast(lang()==='ur'?'انسٹال ابھی تیار ہو رہا ہے، دوبارہ دبائیں':'Install is getting ready - tap again in a moment');
+}
+(function(){
+  window.updateInstallManifest=function(){
+    try{
+      var iconSrc=logoURL || '';
+      if(!iconSrc){
+        var c=document.createElement('canvas');
+        c.width=c.height=512;
+        var x=c.getContext('2d'),g=x.createLinearGradient(0,0,512,512);
+        g.addColorStop(0,DB.colorP||'#8b5cf6');g.addColorStop(1,DB.colorS||'#ec4899');
+        x.fillStyle=g;x.fillRect(0,0,512,512);
+        x.fillStyle='#fff';x.font='bold 150px Arial';x.textAlign='center';x.textBaseline='middle';
+        x.fillText('✂',256,270);
+        iconSrc=c.toDataURL('image/png');
+      }
+      var m={
+        name:DB.shopName||'SalonPro',
+        short_name:(DB.shopName||'SalonPro').slice(0,12),
+        start_url:location.origin+location.pathname,
+        scope:location.origin+'/',
+        display:'standalone',
+        background_color:'#ffffff',
+        theme_color:DB.colorP||'#8b5cf6',
+        icons:[
+          {src:iconSrc,sizes:'192x192',type:'image/png',purpose:'any maskable'},
+          {src:iconSrc,sizes:'512x512',type:'image/png',purpose:'any maskable'}
+        ]
+      };
+      var old=document.querySelector('link[data-salon-dynamic-manifest]');
+      if(old)old.remove();
+      var l=document.createElement('link');
+      l.rel='manifest';
+      l.setAttribute('data-salon-dynamic-manifest','1');
+      l.href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/manifest+json'}));
+      document.head.appendChild(l);
+    }catch(e){console.error('Manifest update failed',e)}
+  };
+  fetch('manifest.json',{cache:'no-store'}).then(function(r){
+    if(!r.ok)window.updateInstallManifest();
+    else window.updateInstallManifest();
+  }).catch(function(){window.updateInstallManifest()});
+})(); 
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredInstall=e;showInstall()});
+window.addEventListener('appinstalled',hideInstall);
+if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+/* ================= START ================= */
+getSession(); /* migrate any old sessionStorage login to persistent localStorage */
+theme();
+render();
+loadBanner();
+loadLogo();
+showInstall();
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+const app=initializeApp({
+  apiKey:"AIzaSyAL5f-nlU2VGdHS_DZnqahtNyRbTC0xKEQ",
+  authDomain:"saloon-60212.firebaseapp.com",
+  projectId:"saloon-60212",
+  storageBucket:"saloon-60212.firebasestorage.app",
+  messagingSenderId:"356797610968",
+  appId:"1:356797610968:web:b7d887efeaa0c2b40350ad"
+});
+const fs=getFirestore(app),ref=doc(fs,"salon","db");
+window.cloudChunkSet=(i,d)=>setDoc(doc(fs,"salon","vid_"+i),{d:d});
+window.cloudChunkGet=i=>getDoc(doc(fs,"salon","vid_"+i)).then(sn=>sn.exists()?sn.data().d:"");
+window.cloudMediaSet=(n,d)=>setDoc(doc(fs,"salon",n),{data:d,t:Date.now()});
+["banner","logo"].forEach(n=>onSnapshot(doc(fs,"salon",n),sn=>mediaChanged(n,sn.exists()?sn.data().data:""),e=>console.error(e)));
+
+let ready=false,pushing=false,queued=null;
+function parse(x){try{return JSON.parse(x)}catch(e){return null}}
+function mergeArrays(local,remote,ldel,rdel){
+  const out={};
+  (remote||[]).forEach(x=>{if(x&&x.id)out[x.id]=x});
+  (local||[]).forEach(x=>{if(!x||!x.id)return;const r=out[x.id];if(!r||Number(x._updatedAt||0)>=Number(r._updatedAt||0))out[x.id]=x});
+  const dels={};
+  (rdel||[]).concat(ldel||[]).forEach(d=>{if(d&&d.id)dels[d.id]=Math.max(dels[d.id]||0,Number(d.t||0))});
+  Object.keys(dels).forEach(id=>{if(out[id]&&dels[id]>=Number(out[id]._updatedAt||0))delete out[id]});
+  return Object.keys(out).map(k=>out[k]);
+}
+function mergeDB(local,remote){
+  if(!remote)return local||{}; if(!local)return remote;
+  const m=JSON.parse(JSON.stringify(remote)),ld=local._deletedIds||{},rd=remote._deletedIds||{};
+  m._deletedIds={};
+  ["users","orders","notifs","expenses","deals","feedback"].forEach(k=>{
+    m[k]=mergeArrays(local[k],remote[k],ld[k],rd[k]);
+    m._deletedIds[k]=(rd[k]||[]).concat(ld[k]||[]);
+  });
+  const lk=Number(local._settingsUpdatedAt||0),rk=Number(remote._settingsUpdatedAt||0);
+  if(lk>rk){
+    ["adminPass","superAdminPass","adminPermissions","adminAccounts","freeTrial","shopName","adminHeading","tagline","colorP","colorS","icons","contact","services","bannerVideo","vid","bannerVersion","logoVersion"].forEach(k=>{if(local[k]!==undefined)m[k]=local[k]});
+    m._settingsUpdatedAt=lk;
+  }
+  m._lastSavedAt=Math.max(Number(local._lastSavedAt||0),Number(remote._lastSavedAt||0));
+  return m;
+}
+async function pushJson(j){
+  queued=j;if(!ready||pushing)return;pushing=true;
+  try{while(queued){const q=queued;queued=null;await setDoc(ref,{json:q,t:Date.now()})}}
+  catch(e){console.error(e);queued=j;toast("Could not save your changes online. Please check your internet connection.")}
+  finally{pushing=false}
+}
+window.cloudPush=pushJson;
+window.cloudReady=()=>ready;
+window.cloudFlush=()=>pushJson(localStorage.getItem(KEY)||JSON.stringify(DB));
+
+onSnapshot(ref,snap=>{
+  if(snap.metadata.hasPendingWrites)return;
+  const remote=snap.exists()?parse(snap.data().json):null,local=parse(localStorage.getItem(KEY)||"");
+  if(!remote){ready=true;pushJson(JSON.stringify(local||loadDB()));return}
+  ready=true;
+  const merged=mergeDB(local,remote),mj=JSON.stringify(merged),rj=JSON.stringify(remote),lj=JSON.stringify(local);
+  if(mj!==rj)pushJson(mj);
+  if(mj!==lj){localStorage.setItem(KEY,mj);remoteChanged()}
+},e=>{console.error(e);toast("Could not connect to the online database. Please check your internet connection.")});
+</script>
+</body>
+</html>
